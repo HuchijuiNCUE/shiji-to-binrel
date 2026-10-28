@@ -1,173 +1,315 @@
+
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>史記toBinrel｜古籍人物關係分析</title>
+
 <style>
-:root{font-family:system-ui,"Microsoft JhengHei",sans-serif;color:#25374a;background:#f3f6f9}
-*{box-sizing:border-box}
-body{margin:0}
-header{background:#193b56;color:white;padding:30px 18px;text-align:center}
-header h1{margin:0 0 8px;font-size:1.8rem}
-header p{margin:0;opacity:.85}
-main{max-width:980px;margin:auto;padding:20px 14px}
-section{background:white;border:1px solid #e0e6ee;border-radius:12px;padding:22px;margin-bottom:18px}
-h2{font-size:1.2rem;margin:0 0 15px}
-label{display:block;font-weight:600;margin:12px 0 6px}
-textarea,select{width:100%;font:inherit;border:1px solid #becbd8;border-radius:7px;padding:10px;line-height:1.6}
-textarea{min-height:140px}
-textarea:focus,select:focus{outline:2px solid #76a6cf}
-button,a.button{background:#245c86;color:white;border:0;border-radius:7px;padding:10px 15px;display:inline-block;text-decoration:none;font:inherit;cursor:pointer;margin:8px 7px 2px 0}
-button:hover,a.button:hover{background:#174565}
-button.secondary{background:#e7edf3;color:#243d54}
-button.secondary:hover{background:#d3e0ec}
-.small{color:#576a7e;font-size:.9rem;line-height:1.7}
-.note{background:#eef4f9;padding:12px;border-radius:8px}
-.scroll{overflow:auto}
-table{border-collapse:collapse;width:100%;margin-top:12px;font-size:.92rem}
-td,th{border:1px solid #ccd6e0;padding:8px;text-align:left;vertical-align:top}
-th{background:#eaf1f8}
-.hidden{display:none}
-#status{font-weight:600;white-space:pre-wrap}
-footer{text-align:center;padding:15px;color:#67798b}
+:root {
+  font-family: system-ui, "Microsoft JhengHei", sans-serif;
+  color: #25374a;
+  background: #f3f6f9;
+}
+* { box-sizing: border-box; }
+body { margin: 0; }
+header {
+  background: #193b56;
+  color: white;
+  padding: 32px 18px;
+  text-align: center;
+}
+header h1 { margin: 0 0 8px; font-size: 1.9rem; }
+header p { margin: 0; opacity: .9; }
+main { max-width: 980px; margin: auto; padding: 20px 14px; }
+section {
+  background: white;
+  border: 1px solid #e0e6ee;
+  border-radius: 12px;
+  padding: 22px;
+  margin-bottom: 18px;
+}
+h2 { font-size: 1.2rem; margin: 0 0 15px; }
+label { display: block; font-weight: 600; margin: 12px 0 6px; }
+textarea, select {
+  width: 100%;
+  font: inherit;
+  border: 1px solid #becbd8;
+  border-radius: 7px;
+  padding: 11px;
+  line-height: 1.6;
+}
+textarea { min-height: 135px; }
+textarea:focus, select:focus { outline: 2px solid #76a6cf; }
+textarea[readonly] { background: #f4f7fa; }
+button, a.button {
+  display: inline-block;
+  background: #245c86;
+  color: white;
+  border: 0;
+  border-radius: 7px;
+  padding: 11px 16px;
+  text-decoration: none;
+  font: inherit;
+  cursor: pointer;
+  margin: 8px 7px 2px 0;
+}
+button:hover, a.button:hover { background: #174565; }
+button.secondary { background: #e7edf3; color: #243d54; }
+button.secondary:hover { background: #d3e0ec; }
+.small { color: #576a7e; font-size: .92rem; line-height: 1.7; }
+.note { background: #eef4f9; padding: 12px; border-radius: 8px; }
+.scroll { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; margin-top: 12px; }
+th, td {
+  border: 1px solid #ccd6e0;
+  padding: 9px;
+  text-align: left;
+  vertical-align: top;
+}
+th { background: #eaf1f8; }
+.status { font-weight: 600; white-space: pre-wrap; }
+.hidden { display: none; }
+footer { text-align: center; color: #67798b; padding: 20px; }
 </style>
 </head>
+
 <body>
 <header>
-<h1>史記 to Binrel</h1>
-<p>《史記》人物提取、人物關係分析與資料匯出工具</p>
+  <h1>史記 to Binrel</h1>
+  <p>《史記》人物提取、人物關係分析與資料匯出工具</p>
+  <p style="font-size:.85rem;margin-top:8px;">
+    A2 第二版｜使用自己的 ChatGPT，不需 API Key
+  </p>
 </header>
 
 <main>
+
+<!-- 步驟一 -->
 <section>
-<h2>步驟一：輸入《史記》原文</h2>
-<p class="small">每段以檔名開頭，例如「項羽本紀001」。</p>
-<textarea id="source" rows="9" placeholder="項羽本紀001&#10;項籍者，下相人也，字羽。..."></textarea>
-<button onclick="sample()">載入範例</button>
-<button class="secondary" onclick="clearAll()">清除</button>
+  <h2>步驟一：輸入《史記》原文</h2>
+
+  <p class="small">
+    請貼入文言文，每個段落以檔名開頭，
+    例如「項羽本紀001」。
+  </p>
+
+  <textarea id="source" rows="10"
+    placeholder="項羽本紀001&#10;項籍者，下相人也，字羽。..."></textarea>
+
+  <button onclick="loadSample()">載入範例</button>
+  <button class="secondary" onclick="clearAll()">清除全部資料</button>
 </section>
 
+<!-- 步驟二 -->
 <section>
-<h2>步驟二：提取人物</h2>
-<p class="small">先產生人物提取指令，貼到一般 ChatGPT。取得人物名單後，可在下方保存名單，供關係分析使用。</p>
-<button onclick="makePrompt('names')">產生人物提取指令</button>
-<label>ChatGPT 分析指令</label>
-<textarea id="prompt" rows="9" readonly></textarea>
-<button onclick="copyPrompt()">複製指令</button>
-<a class="button" href="https://chatgpt.com/" target="_blank" rel="noopener noreferrer">開啟 ChatGPT</a>
+  <h2>步驟二：提取人物</h2>
 
-<label>貼上 ChatGPT 回傳的人物名單表格</label>
-<textarea id="namesResult" rows="5" placeholder="|filename|name|&#10;|--|--|"></textarea>
-<button onclick="saveNames()">保存人物名單</button>
-<p id="namesStatus" class="small" aria-live="polite"></p>
+  <p class="small">
+    產生人物提取指令後，複製並貼入 ChatGPT。
+    待 ChatGPT 回傳人物名單，再貼回下方保存。
+  </p>
+
+  <button onclick="makeNamesPrompt()">產生人物提取指令</button>
+
+  <label for="namesPrompt">人物提取指令</label>
+  <textarea id="namesPrompt" rows="10" readonly
+    placeholder="點選「產生人物提取指令」後，完整指令會顯示在這裡。"></textarea>
+
+  <button onclick="copyText('namesPrompt')">
+    複製人物提取指令
+  </button>
+
+  <a class="button" href="https://chatgpt.com/"
+    target="_blank" rel="noopener noreferrer">
+    開啟 ChatGPT
+  </a>
+
+  <hr style="margin-top:24px;border:0;border-top:1px solid #dde5ed;">
+
+  <label for="namesResult">貼上 ChatGPT 回傳的人物名單</label>
+  <textarea id="namesResult" rows="7"
+    placeholder="|filename|name|&#10;|--|--|&#10;|項羽本紀_001.txt|項羽;項梁;項燕;王翦|"></textarea>
+
+  <button onclick="saveNames()">保存人物名單</button>
+
+  <p id="namesStatus" class="status" role="status"></p>
+  <div id="namesPreview" class="scroll"></div>
 </section>
 
+<!-- 步驟三 -->
 <section>
-<h2>步驟三：分析人物關係</h2>
-<label>選擇格式</label>
-<select id="format">
-<option value="binrel">Binrel 格式</option>
-<option value="ma">MA 格式</option>
-</select>
-<p class="small">關係分析將使用原文與已保存的人物名單。尚未保存人物名單時，請先完成步驟二。</p>
-<button onclick="makeRelationPrompt()">產生關係分析指令</button>
-<p class="small">產生後，使用上方「複製指令」與「開啟 ChatGPT」操作。</p>
+  <h2>步驟三：分析人物關係</h2>
+
+  <p class="small">
+    請先完成步驟二並保存人物名單，
+    再選擇 MA 或 Binrel 分析格式。
+  </p>
+
+  <label for="format">選擇人物關係格式</label>
+  <select id="format">
+    <option value="binrel">Binrel 二元關係格式</option>
+    <option value="ma">MA 人物關係格式</option>
+  </select>
+
+  <button onclick="makeRelationPrompt()">
+    產生關係分析指令
+  </button>
+
+  <label for="relationPrompt">關係分析指令</label>
+
+  <textarea id="relationPrompt" rows="12" readonly
+    placeholder="選擇 MA 或 Binrel，點選「產生關係分析指令」，完整 Prompt 會出現在這裡。"></textarea>
+
+  <button onclick="copyText('relationPrompt')">
+    複製關係分析指令
+  </button>
+
+  <a class="button" href="https://chatgpt.com/"
+    target="_blank" rel="noopener noreferrer">
+    開啟 ChatGPT
+  </a>
+
+  <p class="small note">
+    先複製上面的關係分析指令，再開啟 ChatGPT 貼上。
+    ChatGPT 完成分析後，請將表格貼到步驟四。
+  </p>
 </section>
 
+<!-- 步驟四 -->
 <section>
-<h2>步驟四：匯入分析結果</h2>
-<label>貼上 ChatGPT 回傳的 MA 或 Binrel Markdown 表格</label>
-<textarea id="result" rows="7" placeholder="|source|target|relType|relMeta|&#10;|--|--|--|--|"></textarea>
-<button onclick="parseResult()">解析表格</button>
-<button onclick="downloadCSV()">下載 CSV</button>
-<p id="status" role="status" aria-live="polite"></p>
-<div id="preview" class="scroll"></div>
+  <h2>步驟四：匯入人物關係分析結果</h2>
+
+  <label for="result">
+    貼上 ChatGPT 回傳的 MA 或 Binrel 表格
+  </label>
+
+  <textarea id="result" rows="9"
+    placeholder="|source|target|relType|relMeta|&#10;|--|--|--|--|"></textarea>
+
+  <button onclick="parseResult()">解析表格</button>
+  <button onclick="downloadCSV()">下載 CSV</button>
+
+  <p id="status" class="status" role="status"></p>
+  <div id="preview" class="scroll"></div>
 </section>
 
+<!-- 步驟五 -->
 <section>
-<h2>步驟五：人物關係視覺化</h2>
-<p class="small">下載 Binrel 格式資料後，可利用 DocuSky 進行人物關係視覺化。</p>
-<a class="button" href="https://docusky.org.tw/DocuSky/docuTools/Lites/GraphViz/BinRelLite.html" target="_blank" rel="noopener noreferrer">二元視覺化關聯圖</a>
+  <h2>步驟五：人物關係視覺化</h2>
+
+  <p class="small">
+    下載 Binrel 格式 CSV 後，可使用 DocuSky
+    的二元視覺化關聯圖進行人物關係研究。
+  </p>
+
+  <a class="button"
+    href="https://docusky.org.tw/DocuSky/docuTools/Lites/GraphViz/BinRelLite.html"
+    target="_blank" rel="noopener noreferrer">
+    二元視覺化關聯圖
+  </a>
 </section>
+
 </main>
 
-<footer>史記toBinrel — 數位人文研究工具 A2</footer>
+<footer>
+  史記toBinrel｜數位人文研究工具 A2 v2.0
+</footer>
 
 <script>
 "use strict";
 
-const $=id=>document.getElementById(id);
-let namesTable=[];
-let dataTable=[];
-let activeMode="";
+const $ = id => document.getElementById(id);
 
-const example=`項羽本紀001
-項籍者，下相人也，字羽。初起時，年二十四。其季父項梁，梁父即楚將項燕，為秦將王翦所戮者也。項氏世世為楚將，封於項，故姓項氏。
+let namesTable = [];
+let dataTable = [];
+let parsedFormat = "";
+
+// 範例文本
+const example = `項羽本紀001
+項籍者，下相人也，字羽。初起時，年二十四。其季父項梁，梁父即楚將項燕，為秦將王翦所戮者也。
 
 項羽本紀002
 項籍少時，學書不成，去學劍，又不成。項梁怒之。籍曰：「書足以記名姓而已。劍一人敵，不足學，學萬人敵。」於是項梁乃教籍兵法，籍大喜。`;
 
-function sample(){
- $("source").value=example;
+function resetAnalysis() {
+  namesTable = [];
+  dataTable = [];
+  parsedFormat = "";
+  [
+    "namesPrompt", "namesResult", "relationPrompt", "result"
+  ].forEach(id => $(id).value = "");
+
+  $("namesStatus").textContent = "";
+  $("status").textContent = "";
+  $("namesPreview").replaceChildren();
+  $("preview").replaceChildren();
 }
 
-function clearAll(){
- ["source","prompt","namesResult","result","namesStatus","status"]
-  .forEach(id=>$(id).value!==undefined?$(id).value="":$(id).textContent="");
- namesTable=[];
- dataTable=[];
- activeMode="";
- $("preview").replaceChildren();
+function loadSample() {
+  $("source").value = example;
+  resetAnalysis();
 }
 
-const commonRules=`你是研究司馬遷《史記》的專家。
+function clearAll() {
+  $("source").value = "";
+  resetAnalysis();
+}
 
-請嚴格遵守：
-1. 只能依據我提供的原文，不得使用文本以外的史實補充關係。
-2. 依每個段落的標題辨識檔名。
-3. 例如「項羽本紀001」轉為「項羽本紀_001.txt」。
-4. 辨識原文中的人物及其簡稱、字、別名與稱謂。
-5. 同一人物統一命名，例如「項籍」「籍」可統一為「項羽」。
-6. 不得將地名、官職、氏族直接視為人物。
-7. 沒有足夠證據的關係不要輸出。
-8. 只輸出指定的Markdown表格，不要附加敘述。
-9. 使用繁體中文，欄位名稱完全依指定格式。
-10. 保留每筆資料對應的原文段落，不可混淆來源。`;
+// 共用的史記分析規則
+const commonRules = `你是研究司馬遷《史記》的專家。
 
-const nameRules=`請先從以下《史記》段落提取人物名稱。
+請依以下規則分析我提供的文言文：
+
+1. 只能使用提供的原文，不得加入文本以外的史實。
+2. 依段落標題識別檔名。
+3. 例如「項羽本紀001」須轉為「項羽本紀_001.txt」。
+4. 辨識人物名稱、別名、字及原文中的簡稱。
+5. 同一人物統一名稱，例如項籍、籍、項羽可統一為項羽。
+6. 不得直接將地名、官職或氏族視為人物。
+7. 不得推測原文沒有明確依據的人物關係。
+8. 嚴格按照指定欄位輸出 Markdown 表格。
+9. 使用繁體中文。
+10. 請勿輸出表格以外的說明文字。
+11. 人物關係的箭頭方向依指定格式。
+12. 每筆資料必須保留正確的來源段落。`;
+
+// 人物提取規則
+const nameRules = `任務：提取人物名單。
 
 輸出格式：
 |filename|name|
 |--|--|
 |項羽本紀_001.txt|項羽;項梁;項燕;王翦|
 
-規則：
-每個段落一列。
-每個人物只出現一次。
-多個人物以半形分號 ; 分隔。
-不分析人物關係。`;
+要求：
+1. 每個原文段落輸出一列。
+2. 每個人物在同一段落只列一次。
+3. 不同人物以半形分號 ; 分隔。
+4. 人物名稱統一。
+5. 此階段不要分析人物關係。`;
 
-const maRules=`根據原文及已確認的人物名單，產生MA格式的關係表。
+// MA 規則
+const maRules = `任務：產生 MA 格式人物關係表。
 
-輸出格式：
+格式範例：
 |filename|binrel/叔叔|binrel/姪子|binrel/父親|binrel/被殺害|binrel/教兵法|
 |--|--|--|--|--|--|
 |項羽本紀_001.txt|項羽->項梁|項梁->項羽|項梁->項燕|項燕->王翦||
 |項羽本紀_002.txt|||||項梁->項羽|
 
-以上為原始規格的格式示例。
+規則：
+1. 每列代表一個原文段落。
+2. 每個 binrel/ 欄位代表一種人物關係。
+3. 同一格如果有多組關係，以半形分號 ; 分隔。
+4. 沒有該關係的格子留空。
+5. 可依原文實際出現的關係增加欄位。
+6. 使用原始史記toBinrel所定義的關係命名與方向。
+7. 只能產生原文有證據支持的人物關係。`;
 
-要求：
-每列代表一個段落。
-每個binrel/欄位代表一種關係。
-一格內如有多組同類關係，以半形分號 ; 隔開。
-沒有關係的格子留空。
-箭頭方向依原始史記toBinrel示例。
-僅輸出原文確有依據的人物關係。
-可依原文實際出現的關係增減欄位。`;
-
-const binrelRules=`根據原文及已確認的人物名單，產生Binrel格式的關係表。
+// Binrel 規則
+const binrelRules = `任務：產生 Binrel 格式二元人物關係表。
 
 輸出格式：
 |source|target|relType|relMeta|
@@ -175,63 +317,64 @@ const binrelRules=`根據原文及已確認的人物名單，產生Binrel格式�
 |項羽|項梁|叔叔|項羽本紀_001.txt|
 |項梁|項羽|教兵法|項羽本紀_002.txt|
 
-每一列只有一組人物關係。
-source與target均為人物名稱。
-relType為關係名稱。
-relMeta為來源段落檔名。
-請遵守原始史記toBinrel的關係命名與方向示例。
-不得把文本以外的知識加入分析。`;
+規則：
+1. 每一列表示一組人物與人物的關係。
+2. source 為來源人物。
+3. target 為目標人物。
+4. relType 為關係名稱。
+5. relMeta 為來源段落檔名。
+6. 不得增加其他欄位。
+7. 使用原始史記toBinrel的關係命名與箭頭方向。
+8. 不得加入文本以外的推論。`;
 
-function makePrompt(mode){
- const source=$("source").value.trim();
- if(!source){
-  alert("請先輸入《史記》原文。");
-  return;
- }
- if(mode!=="names" && !namesTable.length){
-  alert("請先完成並保存人物名單。");
-  return;
- }
- const task=mode==="names"?nameRules:mode==="ma"?maRules:binrelRules;
- const nameContext=mode==="names"?"":"\n\n已確認人物名單：\n"+
-   namesTable.map(r=>"|"+r.join("|")+"|").join("\n");
+// 步驟二：產生人物提取指令
+function makeNamesPrompt() {
+  const source = $("source").value.trim();
 
- $("prompt").value=commonRules+"\n\n"+task+nameContext+
-  "\n\n待分析原文：\n"+source;
- activeMode=mode;
- $("prompt").scrollIntoView({behavior:"smooth",block:"center"});
+  if (!source) {
+    alert("請先在步驟一輸入《史記》原文。");
+    return;
+  }
+
+  $("namesPrompt").value =
+    commonRules +
+    "\n\n" + nameRules +
+    "\n\n待分析原文：\n" + source;
+
+  namesTable = [];
+  dataTable = [];
+  parsedFormat = "";
+  $("namesResult").value = "";
+  $("relationPrompt").value = "";
+  $("result").value = "";
+  $("namesStatus").textContent = "";
+  $("status").textContent = "";
+  $("namesPreview").replaceChildren();
+  $("preview").replaceChildren();
 }
 
-function makeRelationPrompt(){
- makePrompt($("format").value);
+// 共用複製功能
+async function copyText(id) {
+  const element = $(id);
+  const value = element.value.trim();
+
+  if (!value) {
+    alert("請先產生分析指令。");
+    return;
+  }
+
+  try {
+    await navigator.clipboard.writeText(value);
+    alert("指令已複製，請貼入 ChatGPT。");
+  } catch (error) {
+    element.focus();
+    element.select();
+    alert("請使用 Ctrl+C 或 Cmd+C 複製已選取的指令。");
+  }
 }
 
-async function copyPrompt(){
- if(!$("prompt").value){
-  alert("請先產生分析指令。");
-  return;
- }
- try{
-  await navigator.clipboard.writeText($("prompt").value);
-  alert("已複製，請到 ChatGPT 貼上並送出。");
- }catch{
-  $("prompt").focus();
-  $("prompt").select();
-  alert("請按 Ctrl+C 或 Cmd+C 複製已選取的指令。");
- }
-}
-
-function cells(line){
- let s=line.trim();
- if(s.startsWith("|"))s=s.slice(1);
- if(s.endsWith("|"))s=s.slice(0,-1);
- return s.split(/(?<!\\)\|/).map(x=>
-   x.trim().replace(/\\\|/g,"|"));
-}
-
-
+// 強化版 Markdown 表格解析
 function parseMarkdown(text, validHeader) {
-  // 統一換行，清除複製時可能產生的跳脫字元
   const normalized = text
     .replace(/\r\n?/g, "\n")
     .replace(/\\n/g, "\n")
@@ -243,7 +386,6 @@ function parseMarkdown(text, validHeader) {
     .map(line => line.trim().replace(/\\+$/, "").trim())
     .filter(line => line.startsWith("|"));
 
-  // 將一行表格拆成欄位
   function getCells(line) {
     let s = line.trim();
     if (s.startsWith("|")) s = s.slice(1);
@@ -251,7 +393,6 @@ function parseMarkdown(text, validHeader) {
     return s.split("|").map(x => x.trim());
   }
 
-  // 找出符合預期欄位的表格
   for (let i = 0; i < lines.length; i++) {
     const header = getCells(lines[i]);
 
@@ -259,10 +400,9 @@ function parseMarkdown(text, validHeader) {
 
     let start = i + 1;
 
-    // 跳過 Markdown 分隔列，例如 |--|--|
     if (start < lines.length) {
-      const separator = getCells(lines[start]);
-      if (separator.every(x => /^:?-{2,}:?$/.test(x))) {
+      const sep = getCells(lines[start]);
+      if (sep.every(x => /^:?-{2,}:?$/.test(x))) {
         start++;
       }
     }
@@ -279,82 +419,180 @@ function parseMarkdown(text, validHeader) {
       rows.push(row);
     }
 
-    if (rows.length > 1) {
-      return rows;
-    }
+    if (rows.length > 1) return rows;
   }
 
   return null;
 }
 
-function saveNames(){
- const table=parseMarkdown(
-  $("namesResult").value,
-  r=>r.length===2&&r[0]==="filename"&&r[1]==="name"
- );
- if(!table){
-  $("namesStatus").textContent="人物名單格式不正確，請檢查 Markdown 表格。";
-  return;
- }
- namesTable=table.slice(1);
- $("namesStatus").textContent="已保存 "+namesTable.length+" 個段落的人物名單。";
-}
+// 通用表格預覽
+function showTable(table, targetId) {
+  const el = document.createElement("table");
 
-function parseResult(){
- const mode=$("format").value;
- const table=parseMarkdown($("result").value,r=>
-   mode==="binrel"?
-    JSON.stringify(r)===JSON.stringify(
-      ["source","target","relType","relMeta"]):
-    r.length>=2&&r[0]==="filename"&&
-      r.slice(1).every(c=>c.startsWith("binrel/"))
- );
+  table.forEach((row, i) => {
+    const tr = document.createElement("tr");
 
- if(!table){
-  dataTable=[];
-  $("preview").replaceChildren();
-  $("status").textContent="解析失敗：請確認表格格式與所選模式一致。";
-  return;
- }
+    row.forEach(cell => {
+      const td = document.createElement(i === 0 ? "th" : "td");
+      td.textContent = cell;
+      tr.appendChild(td);
+    });
 
- dataTable=table;
- const el=document.createElement("table");
- table.forEach((row,i)=>{
-  const tr=document.createElement("tr");
-  row.forEach(cell=>{
-   const td=document.createElement(i===0?"th":"td");
-   td.textContent=cell;
-   tr.appendChild(td);
+    el.appendChild(tr);
   });
-  el.appendChild(tr);
- });
- $("preview").replaceChildren(el);
- $("status").textContent="解析成功，共 "+(table.length-1)+" 筆資料。";
+
+  $(targetId).replaceChildren(el);
 }
 
-function downloadCSV(){
- if(!dataTable.length){
-  alert("請先解析表格。");
-  return;
- }
- const quote=s=>'"'+String(s).replace(/"/g,'""')+'"';
- const csv="\uFEFF"+dataTable.map(r=>r.map(quote).join(",")).join("\r\n");
- const blob=new Blob([csv],{type:"text/csv;charset=utf-8"});
- const url=URL.createObjectURL(blob);
- const a=document.createElement("a");
- a.href=url;
- a.download="shiji_"+$("format").value+".csv";
- document.body.appendChild(a);
- a.click();
- a.remove();
- setTimeout(()=>URL.revokeObjectURL(url),1000);
+// 保存人物名單
+function saveNames() {
+  const table = parseMarkdown(
+    $("namesResult").value,
+    row => row.length === 2 &&
+      row[0] === "filename" &&
+      row[1] === "name"
+  );
+
+  if (!table) {
+    $("namesStatus").textContent =
+      "人物名單格式不正確，請檢查 Markdown 表格。";
+    return;
+  }
+
+  namesTable = table.slice(1);
+
+  // 人物名單更新後，清除舊的關係分析結果
+  $("relationPrompt").value = "";
+  $("result").value = "";
+  dataTable = [];
+  parsedFormat = "";
+  $("preview").replaceChildren();
+  $("status").textContent = "";
+
+  $("namesStatus").textContent =
+    "已成功保存 " + namesTable.length + " 個段落的人物名單。";
+
+  showTable(table, "namesPreview");
 }
 
-$("format").addEventListener("change",()=>{
- dataTable=[];
- $("preview").replaceChildren();
- $("status").textContent="";
+// 步驟三：產生關係分析指令
+function makeRelationPrompt() {
+  const source = $("source").value.trim();
+  const mode = $("format").value;
+
+  if (!source) {
+    alert("請先輸入原文。");
+    return;
+  }
+
+  if (!namesTable.length) {
+    alert("請先在步驟二保存人物名單。");
+    return;
+  }
+
+  const task = mode === "ma" ? maRules : binrelRules;
+
+  const nameContext =
+    "|filename|name|\n|--|--|\n" +
+    namesTable.map(row => "|" + row.join("|") + "|").join("\n");
+
+  $("relationPrompt").value =
+    commonRules +
+    "\n\n" + task +
+    "\n\n已確認人物名單：\n" + nameContext +
+    "\n\n待分析原文：\n" + source;
+
+  // 清除上一份關係結果，避免混用 MA 與 Binrel
+  dataTable = [];
+  parsedFormat = "";
+  $("result").value = "";
+  $("preview").replaceChildren();
+  $("status").textContent = "";
+}
+
+// 步驟四：解析關係表
+function parseResult() {
+  const mode = $("format").value;
+
+  const table = parseMarkdown(
+    $("result").value,
+    row => {
+      if (mode === "binrel") {
+        return JSON.stringify(row) === JSON.stringify(
+          ["source", "target", "relType", "relMeta"]
+        );
+      }
+
+      return row.length >= 2 &&
+        row[0] === "filename" &&
+        row.slice(1).every(x => x.startsWith("binrel/"));
+    }
+  );
+
+  if (!table) {
+    dataTable = [];
+    parsedFormat = "";
+    $("preview").replaceChildren();
+    $("status").textContent =
+      "解析失敗，請確認表格格式與目前選擇的 MA 或 Binrel 相符。";
+    return;
+  }
+
+  dataTable = table;
+  parsedFormat = mode;
+
+  $("status").textContent =
+    "解析成功，共 " + (table.length - 1) + " 筆資料。";
+
+  showTable(table, "preview");
+}
+
+// 下載 CSV
+function downloadCSV() {
+  if (!dataTable.length || parsedFormat !== $("format").value) {
+    alert("請先解析目前格式的分析結果。");
+    return;
+  }
+
+  const quote = value =>
+    '"' + String(value).replace(/"/g, '""') + '"';
+
+  const csv = "\uFEFF" +
+    dataTable.map(row =>
+      row.map(quote).join(",")
+    ).join("\r\n");
+
+  const blob = new Blob(
+    [csv],
+    { type: "text/csv;charset=utf-8" }
+  );
+
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+
+  a.href = url;
+  a.download = "shiji_" + parsedFormat + ".csv";
+
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
+// 切換 MA / Binrel 時清除舊指令
+$("format").addEventListener("change", () => {
+  $("relationPrompt").value = "";
+  $("result").value = "";
+  dataTable = [];
+  parsedFormat = "";
+  $("preview").replaceChildren();
+  $("status").textContent = "";
 });
+
+// 原文被更動後，要求重新分析
+$("source").addEventListener("input", resetAnalysis);
+
 </script>
 </body>
 </html>
