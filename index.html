@@ -231,7 +231,10 @@ function cells(line){
 }
 
 function parseMarkdown(text,validHeader){
- const lines=text.split(/\r?\n/);
+ const lines = text
+  .replace(/\\\r?\n/g, "\n")
+  .split(/\r?\n/)
+  .map(line => line.trim().replace(/^\\(?=\|)/, ""));
  const blocks=[];
  let block=[];
  for(const line of lines){
