@@ -4,552 +4,400 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>史記toBinrel A3｜古籍人物關係分析</title>
-
+<title>史記toBinrel｜古籍人物關係分析</title>
 <style>
-:root {
+:root{
   font-family:system-ui,"Microsoft JhengHei",sans-serif;
-  background:#f3f6f9;
-  color:#24374a;
+  color:#25384b;background:#f3f6f9;
 }
-* {box-sizing:border-box}
-body {margin:0}
-
-/* ===== Banner：標題置中、Logo 對齊內容框 ===== */
-header {
-  background:#193b56;
-  color:white;
-  position:relative;
-  min-height:230px;
+*{box-sizing:border-box}
+body{margin:0}
+header{
+  position:relative;min-height:230px;
+  display:flex;align-items:center;justify-content:center;
   padding:32px 20px;
-  display:flex;
-  justify-content:center;
-  align-items:center;
+  background:#193b56;color:white;
 }
-.banner-title {
-  text-align:center;
-  width:100%;
-}
-.banner-title h1 {
-  font-size:2rem;
-  margin:0 0 8px;
-}
-.banner-title p {
-  margin:0;
-  color:#dce8f2;
-  line-height:1.5;
-}
-.banner-logos {
-  position:absolute;
-  top:22px;
+.banner-title{width:100%;text-align:center}
+.banner-title h1{margin:0 0 8px;font-size:2rem}
+.banner-title p{margin:0;color:#dce8f2;line-height:1.5}
+.banner-logos{
+  position:absolute;top:22px;
   right:max(14px,calc((100% - 992px)/2));
-  width:195px;
-  display:flex;
-  flex-direction:column;
-  align-items:flex-end;
-  gap:14px;
+  display:flex;flex-direction:column;
+  align-items:flex-end;gap:14px;width:195px;
 }
-.banner-logos a {
-  display:block;
-  max-width:100%;
-  line-height:0;
+.banner-logos a{
+  display:block;max-width:100%;line-height:0;
   border-radius:5px;
-  transition:opacity .2s;
 }
-.banner-logos a:hover {opacity:.8}
-.banner-logos a:focus-visible {
-  outline:3px solid white;
-  outline-offset:4px;
+.banner-logos a:hover{opacity:.8}
+.banner-logos a:focus-visible{
+  outline:3px solid white;outline-offset:4px;
 }
-.banner-logos img {
-  display:block;
-  height:auto;
-  max-width:100%;
+.banner-logos img{
+  display:block;max-width:100%;height:auto;
   object-fit:contain;
 }
-.banner-logos .history-logo {width:195px}
-.banner-logos .docusky-logo {width:170px}
-
-/* ===== 網頁內容 ===== */
-main {
-  max-width:1020px;
-  margin:auto;
-  padding:18px 14px;
+.history-logo{width:195px}
+.docusky-logo{width:170px}
+main{max-width:1020px;margin:auto;padding:18px 14px}
+section{
+  background:white;border:1px solid #dfe7ee;
+  border-radius:12px;padding:22px;margin-bottom:18px;
 }
-section {
-  background:white;
-  border:1px solid #dfe7ee;
-  border-radius:12px;
-  padding:22px;
-  margin-bottom:18px;
+h2{font-size:1.2rem;margin:0 0 13px}
+h3{font-size:1.05rem;margin:16px 0 10px}
+label{display:block;font-weight:600;margin:12px 0 6px}
+textarea,input,select{
+  width:100%;padding:11px;font:inherit;
+  border:1px solid #b9c8d5;border-radius:7px;
 }
-h2 {font-size:1.2rem;margin:0 0 13px}
-h3 {font-size:1.05rem;margin:16px 0 10px}
-label {
-  display:block;
-  font-weight:600;
-  margin:12px 0 6px;
-}
-textarea,input,select {
-  width:100%;
-  padding:11px;
-  font:inherit;
-  border:1px solid #b9c8d5;
-  border-radius:7px;
-}
-textarea {
-  line-height:1.65;
-  min-height:120px;
-}
-textarea[readonly] {background:#f5f8fb}
-button,.button {
-  display:inline-block;
-  background:#245c86;
-  color:white;
-  border:0;
-  border-radius:7px;
-  padding:10px 15px;
-  cursor:pointer;
-  font:inherit;
-  text-decoration:none;
+textarea{min-height:120px;line-height:1.65}
+textarea[readonly]{background:#f5f8fb}
+button,.button{
+  display:inline-block;background:#245c86;color:white;
+  border:0;border-radius:7px;padding:10px 15px;
+  cursor:pointer;font:inherit;text-decoration:none;
   margin:7px 7px 3px 0;
 }
-button:hover,.button:hover {background:#173e61}
-button:disabled {opacity:.55;cursor:not-allowed}
-.secondary {background:#e7edf3;color:#243d54}
-.secondary:hover {background:#d1dee9}
-.small {
-  font-size:.9rem;
-  color:#566b7e;
-  line-height:1.7;
+button:hover,.button:hover{background:#173e61}
+button:disabled{opacity:.55;cursor:not-allowed}
+.secondary{background:#e7edf3;color:#243d54}
+.secondary:hover{background:#d1dee9}
+.small{font-size:.9rem;color:#566b7e;line-height:1.7}
+.note{background:#eef4f9;padding:12px;border-radius:8px}
+.warning{
+  background:#fff6e8;border-left:4px solid #c58c28;
+  padding:12px;line-height:1.7;
 }
-.note {
-  background:#eef4f9;
-  padding:12px;
-  border-radius:8px;
+.hidden{display:none!important}
+.mode-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:12px;
 }
-.warning {
-  background:#fff6e8;
-  border-left:4px solid #c58c28;
-  padding:12px;
-  line-height:1.7;
+.mode-card{
+  border:2px solid #d5dfe8;border-radius:10px;
+  padding:16px;text-align:left;background:white;
+  color:#24374a;margin:0;min-height:110px;
 }
-.hidden {display:none!important}
-.mode-grid {
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:12px;
+.mode-card.active{border-color:#245c86;background:#edf5fc}
+.mode-card strong{display:block;margin-bottom:7px}
+.mode-card span{font-size:.88rem;line-height:1.5}
+.scroll{overflow-x:auto}
+table{border-collapse:collapse;width:100%;margin-top:12px}
+th,td{
+  border:1px solid #ccd6e0;padding:9px;text-align:left;
+  vertical-align:top;overflow-wrap:anywhere;
 }
-.mode-card {
-  border:2px solid #d5dfe8;
-  border-radius:10px;
-  padding:16px;
-  text-align:left;
-  background:white;
-  color:#24374a;
-  margin:0;
-  min-height:110px;
+th{background:#eaf1f8}
+.status{white-space:pre-wrap;font-weight:600;line-height:1.6}
+.busy{color:#245c86}
+.error{color:#a32828}
+.success{color:#177044}
+#chatLog{
+  max-height:480px;overflow:auto;
+  border:1px solid #d8e2ea;background:#f9fbfd;
+  padding:12px;border-radius:8px;
 }
-.mode-card.active {
-  border-color:#245c86;
-  background:#edf5fc;
+.message{
+  padding:12px;margin-bottom:10px;border-radius:9px;
 }
-.mode-card strong {display:block;margin-bottom:7px}
-.mode-card span {font-size:.88rem;line-height:1.5}
-.scroll {overflow-x:auto}
-table {border-collapse:collapse;width:100%;margin-top:12px}
-th,td {
-  border:1px solid #ccd6e0;
-  padding:9px;
-  text-align:left;
-  vertical-align:top;
-  overflow-wrap:anywhere;
+.message.user{background:#e8f1fa;margin-left:8%}
+.message.assistant{
+  background:white;border:1px solid #dce5ee;margin-right:5%;
 }
-th {background:#eaf1f8}
-.status {
-  white-space:pre-wrap;
-  font-weight:600;
-  line-height:1.6;
+.message pre{
+  white-space:pre-wrap;overflow-wrap:anywhere;font:inherit;
+  max-height:330px;overflow:auto;
 }
-.busy {color:#245c86}
-.error {color:#a32828}
-.success {color:#177044}
-#chatLog {
-  max-height:420px;
-  overflow:auto;
-  border:1px solid #d8e2ea;
-  background:#f9fbfd;
-  padding:12px;
-  border-radius:8px;
+.apply-area{
+  border-top:1px solid #e2e8ef;
+  padding-top:10px;margin-top:10px;
 }
-.message {padding:12px;margin-bottom:10px;border-radius:9px}
-.message.user {background:#e8f1fa;margin-left:12%}
-.message.assistant {
-  background:white;
-  border:1px solid #dce5ee;
-  margin-right:8%;
-}
-.message pre {
-  white-space:pre-wrap;
-  overflow-wrap:anywhere;
-  font:inherit;
-}
-footer {text-align:center;color:#667b8d;padding:20px}
+.apply-area button{background:#226847}
+.apply-area button:hover{background:#175133}
+.apply-note{font-size:.85rem;color:#596c7e}
+footer{text-align:center;color:#667b8d;padding:20px}
 
-/* ===== 平板、手機版 ===== */
-@media(max-width:1000px) {
-  header {
-    flex-direction:column;
-    gap:20px;
-    padding:28px 16px;
+@media(max-width:1000px){
+  header{flex-direction:column;gap:20px;padding:28px 16px}
+  .banner-logos{
+    position:static;width:100%;align-items:center;gap:12px;
   }
-  .banner-title {text-align:center}
-  .banner-logos {
-    position:static;
-    width:100%;
-    align-items:center;
-    gap:12px;
-  }
-  .banner-logos .history-logo {width:195px}
-  .banner-logos .docusky-logo {width:170px}
 }
-@media(max-width:640px) {
-  .mode-grid {grid-template-columns:1fr}
-  section {padding:16px}
-  .banner-title h1 {font-size:1.65rem}
+@media(max-width:640px){
+  .mode-grid{grid-template-columns:1fr}
+  section{padding:16px}
+  .banner-title h1{font-size:1.65rem}
 }
 </style>
 </head>
 
 <body>
-
-<!-- ===== Banner ===== -->
 <header>
   <div class="banner-title">
     <h1>史記 to Binrel</h1>
     <p>古籍人物提取與關係網絡正規化工具</p>
     <p style="margin-top:8px;font-size:.86rem">
-      A3 雙模式測試版
+      A3.1 雙模式版
     </p>
   </div>
 
   <div class="banner-logos">
-
     <a href="https://history.ncue.edu.tw/"
-       target="_blank"
-       rel="noopener noreferrer"
-       title="前往國立彰化師範大學歷史學研究所">
+       target="_blank" rel="noopener noreferrer"
+       title="彰師大歷史所首頁">
       <img src="images/history-logo.png"
            alt="國立彰化師範大學歷史學研究所"
            class="history-logo">
     </a>
-
     <a href="https://docusky.org.tw/"
-       target="_blank"
-       rel="noopener noreferrer"
-       title="前往 DocuSky 數位人文學術研究平台">
+       target="_blank" rel="noopener noreferrer"
+       title="DocuSky 首頁">
       <img src="images/docusky-logo.png"
            alt="DocuSky 數位人文學術研究平台"
            class="docusky-logo">
     </a>
-
   </div>
 </header>
 
 <main>
-
 <section>
-  <h2>一、選擇分析模式</h2>
-  <div class="mode-grid">
-    <button id="manualBtn" class="mode-card active"
-            onclick="setMode('manual')">
-      <strong>模式一：ChatGPT 手動轉貼（預設）</strong>
-      <span>
-        需將文本與生成提示詞在網頁與個人的
-        ChatGPT 中轉貼。不需要 API Key。
-      </span>
-    </button>
-
-    <button id="apiBtn" class="mode-card"
-            onclick="setMode('api')">
-      <strong>模式二：LLM API 自動分析</strong>
-      <span>
-        輸入大語言模型 API Key，即可在本頁完成
-        人物提取、關係分析與正規化格式生成。
-      </span>
-    </button>
-  </div>
+<h2>一、選擇分析模式</h2>
+<div class="mode-grid">
+  <button id="manualBtn" class="mode-card active"
+          onclick="setMode('manual')">
+    <strong>模式一：ChatGPT 手動轉貼（預設）</strong>
+    <span>需將文本與生成提示詞在網頁與個人的
+    ChatGPT 中轉貼。不需要 API Key。</span>
+  </button>
+  <button id="apiBtn" class="mode-card"
+          onclick="setMode('api')">
+    <strong>模式二：LLM API 自動分析</strong>
+    <span>輸入大語言模型 API Key，即可在本頁
+    完成人物提取、關係分析與正規化格式生成。</span>
+  </button>
+</div>
 </section>
 
 <section id="apiSettings" class="hidden">
-  <h2>二、設定 LLM API</h2>
+<h2>二、設定 LLM API</h2>
+<label for="provider">AI 供應商</label>
+<select id="provider" onchange="changeProvider()">
+  <option value="openai">OpenAI（GPT）</option>
+  <option value="gemini">Google（Gemini）</option>
+  <option value="claude">Anthropic（Claude）</option>
+</select>
 
-  <label for="provider">AI 供應商</label>
-  <select id="provider" onchange="changeProvider()">
-    <option value="openai">OpenAI（GPT）</option>
-    <option value="gemini">Google（Gemini）</option>
-    <option value="claude">Anthropic（Claude）</option>
-  </select>
+<label for="model">模型名稱</label>
+<input id="model" spellcheck="false">
+<p class="small">可自行修改模型名稱。模型是否可用，
+取決於供應商及 API 帳戶權限。</p>
 
-  <label for="model">模型名稱</label>
-  <input id="model" spellcheck="false">
-  <p class="small">
-    可自行修改模型名稱。
-    實際可用模型取決於供應商和帳戶權限。
-  </p>
+<label for="apiKey">使用者自己的 API Key</label>
+<input id="apiKey" type="password"
+       autocomplete="off" spellcheck="false"
+       placeholder="請輸入 API Key">
 
-  <label for="apiKey">您的 API Key</label>
-  <input id="apiKey" type="password"
-         autocomplete="off"
-         spellcheck="false"
-         placeholder="請輸入所選供應商的 API Key">
+<label>
+  <input id="showKey" type="checkbox" style="width:auto"
+         onchange="toggleKey()">
+  顯示 API Key
+</label>
 
-  <label>
-    <input id="showKey" type="checkbox"
-           style="width:auto" onchange="toggleKey()">
-    顯示 API Key
-  </label>
-
-  <div class="warning">
-    本版採用瀏覽器直接呼叫 API 的測試架構。
-    金鑰不會寫入公開程式碼，也不會存入 localStorage，
-    但仍可能暴露於使用者的瀏覽器環境。
-    建議僅使用具有用量限制的測試金鑰。
-    各供應商可能有瀏覽器跨來源連線限制。
-  </div>
-
-  <p class="small">
-    API 費用由使用者自己的 API 帳戶承擔。
-  </p>
+<div class="warning">
+  本版採用瀏覽器直接呼叫 API 的測試架構。
+  API Key 不會寫入原始碼，也不會儲存於 localStorage，
+  但仍可能暴露於使用者的瀏覽器環境。
+  請使用設有用量限制的測試金鑰。
+  部分供應商可能受到瀏覽器跨來源限制。
+  API 費用由使用者自己的帳戶負擔。
+</div>
 </section>
 
 <section>
-  <h2>輸入《史記》原文</h2>
-  <p class="small">
-    每個段落以檔名開頭，例如「項羽本紀001」。
-    可一次貼入多個段落。
-  </p>
-
-  <textarea id="source" rows="10"
-    placeholder="項羽本紀001&#10;項籍者，下相人也，字羽。..."></textarea>
-
-  <button onclick="loadSample()">載入範例</button>
-  <button class="secondary" onclick="clearAll()">清除資料</button>
+<h2>輸入《史記》原文</h2>
+<p class="small">每段以檔名開頭，例如「項羽本紀001」。
+可以一次貼入多個段落。</p>
+<textarea id="source" rows="10"
+ placeholder="項羽本紀001&#10;項籍者，下相人也，字羽。..."></textarea>
+<button onclick="loadSample()">載入範例</button>
+<button class="secondary" onclick="clearAll()">清除資料</button>
 </section>
 
 <section>
-  <h2>人物提取</h2>
+<h2>三、人物提取</h2>
 
-  <div id="manualNames">
-    <p class="small">
-      產生人物提取指令，複製到 ChatGPT，
-      再將回傳表格貼回本頁。
-    </p>
+<div id="manualNames">
+  <p class="small">產生人物提取指令，複製到 ChatGPT，
+  再將回傳表格貼回本頁。</p>
+  <button onclick="makeNamesPrompt()">產生人物提取指令</button>
+  <label for="namesPrompt">人物提取指令</label>
+  <textarea id="namesPrompt" rows="9" readonly></textarea>
+  <button onclick="copyText('namesPrompt')">複製人物提取指令</button>
+  <a class="button" href="https://chatgpt.com/"
+     target="_blank" rel="noopener noreferrer">開啟 ChatGPT</a>
 
-    <button onclick="makeNamesPrompt()">產生人物提取指令</button>
+  <label for="namesResult">貼上人物名單表格</label>
+  <textarea id="namesResult" rows="6"></textarea>
+  <button onclick="saveNames()">保存人物名單</button>
+</div>
 
-    <label for="namesPrompt">人物提取指令</label>
-    <textarea id="namesPrompt" rows="9" readonly></textarea>
-
-    <button onclick="copyText('namesPrompt')">
-      複製人物提取指令
-    </button>
-
-    <a class="button" href="https://chatgpt.com/"
-       target="_blank" rel="noopener noreferrer">
-      開啟 ChatGPT
-    </a>
-
-    <label for="namesResult">貼上人物名單表格</label>
-    <textarea id="namesResult" rows="6"></textarea>
-
-    <button onclick="saveNames()">保存人物名單</button>
-  </div>
-
-  <div id="apiNames" class="hidden">
-    <p class="small">
-      使用 AI API 提取人物，結果顯示在下方，
-      並允許人工修正。
-    </p>
-    <button onclick="extractByAPI()" id="extractBtn">
-      使用 API 提取人物
-    </button>
-  </div>
-
-  <p id="namesStatus" class="status" role="status"></p>
-
-  <label for="namesEditor">
-    已辨識的人物名單（可編輯）
-  </label>
-  <textarea id="namesEditor" rows="7"
-    placeholder="人物提取後，這裡會出現可修改的 Markdown 表格。"></textarea>
-
-  <button onclick="confirmNames()">確認並保存人物名單</button>
-
-  <div id="namesPreview" class="scroll"></div>
-</section>
-
-<section>
-  <h2>人物關係分析</h2>
-
-  <label for="format">輸出格式</label>
-  <select id="format" onchange="formatChanged()">
-    <option value="binrel">Binrel 格式</option>
-    <option value="ma">MA 格式</option>
-  </select>
-
-  <div id="manualRelations">
-    <p class="small">
-      根據已確認的人物名單產生指令，
-      複製到 ChatGPT 分析。
-    </p>
-
-    <button onclick="makeRelationPrompt()">
-      產生關係分析指令
-    </button>
-
-    <label for="relationPrompt">關係分析指令</label>
-    <textarea id="relationPrompt" rows="10" readonly></textarea>
-
-    <button onclick="copyText('relationPrompt')">
-      複製關係分析指令
-    </button>
-
-    <a class="button" href="https://chatgpt.com/"
-       target="_blank" rel="noopener noreferrer">
-      開啟 ChatGPT
-    </a>
-
-    <label for="manualRelationResult">
-      貼上 ChatGPT 回傳的關係表
-    </label>
-    <textarea id="manualRelationResult" rows="7"></textarea>
-
-    <button onclick="importRelationResult()">
-      解析並保存關係表
-    </button>
-  </div>
-
-  <div id="apiRelations" class="hidden">
-    <p class="small">
-      呼叫 AI API，根據原文和已確認人物名單，
-      自動產生關係表。
-    </p>
-    <button onclick="relationsByAPI()" id="relationBtn">
-      使用 API 生成關係表
-    </button>
-  </div>
-
-  <p id="relationStatus" class="status" role="status"></p>
-
-  <label for="relationEditor">
-    人物關係結果（可編輯）
-  </label>
-  <textarea id="relationEditor" rows="9"
-    placeholder="分析完成後，這裡會顯示人物關係表。"></textarea>
-
-  <button onclick="confirmRelations()">確認關係表格</button>
-  <button onclick="downloadRelations()">下載關係 CSV</button>
-  <button class="secondary" onclick="downloadNames()">
-    下載人物名單 CSV
+<div id="apiNames" class="hidden">
+  <p class="small">直接使用 API 提取人物，
+  結果顯示於下方，並可人工校訂。</p>
+  <button id="extractBtn" onclick="extractByAPI()">
+    使用 API 提取人物
   </button>
+</div>
 
-  <div id="relationPreview" class="scroll"></div>
+<p id="namesStatus" class="status" role="status"></p>
+<label for="namesEditor">已辨識的人物名單（可編輯）</label>
+<textarea id="namesEditor" rows="7"></textarea>
+<button onclick="confirmNames()">確認並保存人物名單</button>
+<div id="namesPreview" class="scroll"></div>
+</section>
+
+<section>
+<h2>四、人物關係分析</h2>
+
+<label for="format">輸出格式</label>
+<select id="format" onchange="formatChanged()">
+  <option value="binrel">Binrel 格式</option>
+  <option value="ma">MA 格式</option>
+</select>
+
+<div id="manualRelations">
+  <p class="small">根據已確認的人物名單產生指令，
+  再複製到 ChatGPT。</p>
+  <button onclick="makeRelationPrompt()">產生關係分析指令</button>
+  <label for="relationPrompt">關係分析指令</label>
+  <textarea id="relationPrompt" rows="10" readonly></textarea>
+  <button onclick="copyText('relationPrompt')">
+    複製關係分析指令
+  </button>
+  <a class="button" href="https://chatgpt.com/"
+     target="_blank" rel="noopener noreferrer">開啟 ChatGPT</a>
+
+  <label for="manualRelationResult">
+    貼上 ChatGPT 回傳的關係表
+  </label>
+  <textarea id="manualRelationResult" rows="7"></textarea>
+  <button onclick="importRelationResult()">解析並保存關係表</button>
+</div>
+
+<div id="apiRelations" class="hidden">
+  <p class="small">使用 API 依據原文與已確認人物名單，
+  產生 Binrel 或 MA 關係表。</p>
+  <button id="relationBtn" onclick="relationsByAPI()">
+    使用 API 生成關係表
+  </button>
+</div>
+
+<p id="relationStatus" class="status" role="status"></p>
+
+<label for="relationEditor">人物關係結果（可編輯）</label>
+<textarea id="relationEditor" rows="10"></textarea>
+
+<button onclick="confirmRelations()">確認關係表格</button>
+<button onclick="downloadRelations()">下載關係 CSV</button>
+<button class="secondary" onclick="downloadNames()">
+  下載人物名單 CSV
+</button>
+
+<p class="small note">
+  第五步 AI 對話修改後的完整表格，可以透過
+  「將此關係表套用至步驟四」更新這裡。
+  更新前可以先下載舊版 CSV 作為備份。
+</p>
+<div id="relationPreview" class="scroll"></div>
 </section>
 
 <section id="chatSection" class="hidden">
-  <h2>API 分析對話區</h2>
+<h2>五、API 分析對話區</h2>
+<p class="small">
+  您可以要求 AI 重新檢查人物異名、修改關係，
+  或重新輸出完整的 Binrel／MA 表格。
+  當 AI 回覆有效關係表時，回覆下方會出現套用按鈕。
+  套用前會先詢問您是否確認覆蓋第四步資料。
+</p>
 
-  <p class="small">
-    顯示 API 分析過程，並可輸入補充指令。
-    自由對話不會直接覆蓋已確認表格。
-  </p>
+<div id="chatLog" aria-live="polite">
+  <p class="small">尚未進行 API 分析。</p>
+</div>
 
-  <div id="chatLog" aria-live="polite">
-    <p class="small">尚未進行 API 分析。</p>
-  </div>
-
-  <label for="chatInput">補充分析指令</label>
-  <textarea id="chatInput" rows="3"
-    placeholder="例如：請重新檢查人物異名是否一致。"></textarea>
-
-  <button onclick="sendChat()" id="chatBtn">
-    傳送訊息
-  </button>
+<label for="chatInput">補充分析與修正指令</label>
+<textarea id="chatInput" rows="4"
+ placeholder="請根據我的修正意見，重新輸出完整的 Binrel 表格，保留所有未修改的資料列。"></textarea>
+<button id="chatBtn" onclick="sendChat()">傳送訊息</button>
 </section>
 
 <section>
-  <h2>DocuSky 關係視覺化</h2>
-  <p class="small">
-    下載 Binrel CSV 後，可使用 DocuSky 的
-    二元視覺化關聯圖工具。
-  </p>
-
-  <a class="button"
-     href="https://docusky.org.tw/DocuSky/docuTools/Lites/GraphViz/BinRelLite.html"
-     target="_blank" rel="noopener noreferrer">
-    二元視覺化關聯圖
-  </a>
+<h2>DocuSky 關係視覺化</h2>
+<p class="small">下載 Binrel CSV 後，
+可前往 DocuSky 二元視覺化關聯圖工具。</p>
+<a class="button"
+ href="https://docusky.org.tw/DocuSky/docuTools/Lites/GraphViz/BinRelLite.html"
+ target="_blank" rel="noopener noreferrer">
+ 二元視覺化關聯圖
+</a>
 </section>
-
 </main>
 
-<footer>
-  史記toBinrel A3｜數位人文研究工具
-</footer>
+<footer>史記toBinrel A3.1｜數位人文研究工具</footer>
 
 <script>
 "use strict";
 
-const $ = id => document.getElementById(id);
+const $=id=>document.getElementById(id);
 
-let currentMode = "manual";
-let namesTable = [];
-let relationTable = [];
-let relationFormat = "";
-let busy = false;
-let chatHistory = [];
+let currentMode="manual";
+let namesTable=[];
+let relationTable=[];
+let relationFormat="";
+let busy=false;
+let chatHistory=[];
 
-const defaults = {
+const defaults={
   openai:"gpt-4.1-mini",
   gemini:"gemini-2.5-flash",
   claude:"claude-sonnet-4-5"
 };
 
-const sampleText = `項羽本紀001
+const sampleText=`項羽本紀001
 項籍者，下相人也，字羽。初起時，年二十四。其季父項梁，梁父即楚將項燕，為秦將王翦所戮者也。
 
 項羽本紀002
 項籍少時，學書不成，去學劍，又不成。項梁怒之。籍曰：「書足以記名姓而已。劍一人敵，不足學，學萬人敵。」於是項梁乃教籍兵法，籍大喜。`;
 
-const commonRules = `你是研究司馬遷《史記》的專家。
+const commonRules=`你是研究司馬遷《史記》的專家。
 
 請嚴格遵守：
 1. 只能依據提供的原文，不得加入外部史實。
-2. 依段落標題辨識來源，例如「項羽本紀001」標準化為「項羽本紀_001.txt」。
+2. 依段落標題辨識來源，例「項羽本紀001」標準化為「項羽本紀_001.txt」。
 3. 辨識人物、別名、字和簡稱。
-4. 有明確證據的異名須統一，例如項籍、籍、項羽。
+4. 有明確證據的異名須統一，如項籍、籍、項羽。
 5. 不將地名、官職或氏族直接視為人物。
 6. 不推測文本沒有依據的人物關係。
 7. 每筆結果必須對應來源段落。
 8. 使用繁體中文。
-9. 嚴格按照要求的欄位輸出。
+9. 嚴格按照指定欄位輸出。
 10. 結構化分析只輸出 Markdown 表格。
 11. 不要在表格外添加說明或程式碼圍欄。`;
 
-const namesRules = `請提取每個段落的人物。
+const namesRules=`提取各段落人物名單。
 
-輸出格式：
+格式：
 |filename|name|
 |--|--|
 |項羽本紀_001.txt|項羽;項梁;項燕;王翦|
 
-每個段落一列。
-同段落人物不可重複。
+每個段落一列，同段人物不可重複。
 多個人物以半形分號 ; 分隔。
 此階段不產生人物關係。`;
 
-const binrelRules = `依據原文和已確認人物名單產生 Binrel 關係表。
+const binrelRules=`依據原文及已確認人物名單，
+產生 Binrel 二元關係表。
 
 格式：
 |source|target|relType|relMeta|
@@ -557,14 +405,15 @@ const binrelRules = `依據原文和已確認人物名單產生 Binrel 關係表
 |項羽|項梁|叔叔|項羽本紀_001.txt|
 |項梁|項羽|教兵法|項羽本紀_002.txt|
 
-每列一組人物關係。
-source 和 target 都必須是人物。
+每列僅有一組人物關係。
+source、target 都必須是人物。
 relType 是關係名稱。
 relMeta 是來源段落檔名。
-遵守原始史記toBinrel示例的關係方向。
-不得增加其他欄位。`;
+遵守原始史記toBinrel示例的關係命名與方向。
+不可增加其他欄位。`;
 
-const maRules = `依據原文和已確認人物名單產生 MA 關係表。
+const maRules=`依據原文及已確認人物名單，
+產生 MA 人物關係表。
 
 格式：
 |filename|binrel/叔叔|binrel/姪子|binrel/父親|binrel/被殺害|binrel/教兵法|
@@ -575,12 +424,12 @@ const maRules = `依據原文和已確認人物名單產生 MA 關係表。
 每列對應一個段落。
 每欄是 binrel/關係名稱。
 同一格多組關係用半形分號 ; 分隔。
-無該關係的格子留空。
-遵守原始史記toBinrel示例的命名和方向。
-可依原文實際出現的關係增加欄位。`;
+沒有該關係的格子留空。
+遵守原始史記toBinrel示例的關係方向。
+可依原文增加關係欄位。`;
 
-function setMode(mode) {
-  if(busy) return;
+function setMode(mode){
+  if(busy)return;
   currentMode=mode;
   const api=mode==="api";
 
@@ -589,38 +438,24 @@ function setMode(mode) {
 
   ["apiSettings","apiNames","apiRelations","chatSection"]
     .forEach(id=>$(id).classList.toggle("hidden",!api));
-
   ["manualNames","manualRelations"]
     .forEach(id=>$(id).classList.toggle("hidden",api));
 }
 
-function changeProvider() {
-  if(busy) return;
+function changeProvider(){
+  if(busy)return;
   $("model").value=defaults[$("provider").value];
   $("apiKey").value="";
   chatHistory=[];
   $("chatLog").replaceChildren();
-  $("chatLog").textContent="已切換模型，對話紀錄重新開始。";
+  $("chatLog").textContent="已切換 AI 供應商，對話重新開始。";
 }
 
-function toggleKey() {
+function toggleKey(){
   $("apiKey").type=$("showKey").checked?"text":"password";
 }
 
-function loadSample() {
-  if(busy) return;
-  $("source").value=sampleText;
-  resetResults();
-}
-
-function clearAll() {
-  if(busy) return;
-  $("source").value="";
-  $("apiKey").value="";
-  resetResults();
-}
-
-function resetResults() {
+function resetResults(){
   namesTable=[];
   relationTable=[];
   relationFormat="";
@@ -639,24 +474,33 @@ function resetResults() {
     .forEach(id=>$(id).replaceChildren());
 }
 
-function buildNamesPrompt() {
-  const source=$("source").value.trim();
-  if(!source) throw Error("請先輸入《史記》原文。");
+function loadSample(){
+  if(busy)return;
+  $("source").value=sampleText;
+  resetResults();
+}
 
+function clearAll(){
+  if(busy)return;
+  $("source").value="";
+  $("apiKey").value="";
+  resetResults();
+}
+
+function buildNamesPrompt(){
+  const source=$("source").value.trim();
+  if(!source)throw Error("請先輸入《史記》原文。");
   return commonRules+"\n\n"+namesRules+
     "\n\n待分析原文：\n"+source;
 }
 
-function buildRelationPrompt() {
+function buildRelationPrompt(){
   const source=$("source").value.trim();
-
-  if(!source) throw Error("請先輸入原文。");
+  if(!source)throw Error("請先輸入原文。");
   if(!namesTable.length)
     throw Error("請先確認並保存人物名單。");
 
-  const task=$("format").value==="ma"
-    ? maRules:binrelRules;
-
+  const task=$("format").value==="ma"?maRules:binrelRules;
   const confirmed=[
     ["filename","name"],...namesTable
   ].map(row=>"|"+row.join("|")+"|").join("\n");
@@ -666,105 +510,104 @@ function buildRelationPrompt() {
     "\n\n待分析原文：\n"+source;
 }
 
-function makeNamesPrompt() {
-  try {
-    $("namesPrompt").value=buildNamesPrompt();
-  }catch(e){alert(e.message);}
+function makeNamesPrompt(){
+  try{$("namesPrompt").value=buildNamesPrompt();}
+  catch(e){alert(e.message);}
 }
 
-function makeRelationPrompt() {
-  try {
-    $("relationPrompt").value=buildRelationPrompt();
-  }catch(e){alert(e.message);}
+function makeRelationPrompt(){
+  try{$("relationPrompt").value=buildRelationPrompt();}
+  catch(e){alert(e.message);}
 }
 
-async function copyText(id) {
+async function copyText(id){
   const value=$(id).value.trim();
-  if(!value) {
-    alert("請先產生指令。");
-    return;
-  }
-
-  try {
+  if(!value){alert("請先產生指令。");return;}
+  try{
     await navigator.clipboard.writeText(value);
     alert("已複製，請貼到 ChatGPT。");
-  }catch {
+  }catch{
     $(id).focus();
     $(id).select();
     alert("請按 Ctrl+C 或 Cmd+C 複製。");
   }
 }
 
-/* ===== Markdown 表格解析 ===== */
-function normalizeMarkdown(text) {
+/* ===== 表格解析 ===== */
+
+function normalizeMarkdown(text){
   return text
     .replace(/\r\n?/g,"\n")
+    .replace(/&#x20;|&#32;|&nbsp;/gi," ")
+    .replace(/\u00a0/g," ")
     .replace(/\\n/g,"\n")
     .replace(/\\\|/g,"|")
     .replace(/\\[ \t]*\n/g,"\n")
     .replace(/[\u200B-\u200D\uFEFF]/g,"");
 }
 
-function parseMarkdown(text,headerCheck) {
-  const lines=normalizeMarkdown(text).split("\n")
+function parseMarkdown(text,headerCheck){
+  const lines=normalizeMarkdown(text)
+    .split("\n")
     .map(s=>s.trim().replace(/\\+$/,"").trim());
 
-  function splitRow(line) {
+  function splitRow(line){
     let s=line;
-    if(s.startsWith("|")) s=s.slice(1);
-    if(s.endsWith("|")) s=s.slice(0,-1);
+    if(s.startsWith("|"))s=s.slice(1);
+    if(s.endsWith("|"))s=s.slice(0,-1);
     return s.split("|").map(c=>c.trim());
   }
 
-  for(let i=0;i<lines.length;i++) {
-    if(!lines[i].startsWith("|")) continue;
-
+  for(let i=0;i<lines.length;i++){
+    if(!lines[i].startsWith("|"))continue;
     const header=splitRow(lines[i]);
-    if(!headerCheck(header)) continue;
+    if(!headerCheck(header))continue;
 
     const rows=[header];
-
-    for(let j=i+1;j<lines.length;j++) {
-      if(!lines[j].startsWith("|")) {
-        if(rows.length>1) break;
+    for(let j=i+1;j<lines.length;j++){
+      if(!lines[j].startsWith("|")){
+        if(rows.length>1)break;
         continue;
       }
 
       const row=splitRow(lines[j]);
-      if(row.length!==header.length) break;
-      if(row.every(c=>/^:?-{2,}:?$/.test(c))) continue;
-      if(headerCheck(row)) break;
-
+      if(row.length!==header.length)break;
+      if(row.every(c=>/^:?-{2,}:?$/.test(c)))continue;
+      if(headerCheck(row))break;
       rows.push(row);
     }
-    if(rows.length>1) return rows;
+
+    if(rows.length>1)return rows;
   }
   return null;
 }
 
-function namesHeader(row) {
+function namesHeader(row){
   return row.length===2 &&
     row[0]==="filename" &&
     row[1]==="name";
 }
 
-function relationHeader(row) {
-  if($("format").value==="binrel") {
+function headerForFormat(row,format){
+  if(format==="binrel"){
     return JSON.stringify(row)===JSON.stringify(
       ["source","target","relType","relMeta"]
     );
   }
   return row.length>=2 &&
     row[0]==="filename" &&
-    row.slice(1).every(c=>c.startsWith("binrel/"));
+    row.slice(1).every(x=>x.startsWith("binrel/"));
 }
 
-function tableView(table,target) {
+function relationHeader(row){
+  return headerForFormat(row,$("format").value);
+}
+
+function tableView(table,target){
   const t=document.createElement("table");
 
   table.forEach((row,i)=>{
     const tr=document.createElement("tr");
-
     row.forEach(value=>{
       const cell=document.createElement(i===0?"th":"td");
       cell.textContent=value;
@@ -776,24 +619,37 @@ function tableView(table,target) {
   $(target).replaceChildren(t);
 }
 
-function confirmNames() {
-  const text=$("namesEditor").value.trim() ||
-    $("namesResult").value.trim();
+function tableToMarkdown(table){
+  const width=table[0].length;
+  const separator=Array(width).fill("---");
+  return [table[0],separator,...table.slice(1)]
+    .map(row=>"|"+row.join("|")+"|")
+    .join("\n");
+}
 
+function clearRelations(){
+  relationTable=[];
+  relationFormat="";
+  $("relationPrompt").value="";
+  $("manualRelationResult").value="";
+  $("relationEditor").value="";
+  $("relationPreview").replaceChildren();
+  $("relationStatus").textContent="";
+}
+
+function confirmNames(){
+  const text=$("namesEditor").value.trim()||
+    $("namesResult").value.trim();
   const table=parseMarkdown(text,namesHeader);
 
-  if(!table) {
-    $("namesStatus").textContent=
-      "人物名單格式錯誤，請確認 filename、name 欄位。";
+  if(!table){
+    $("namesStatus").textContent="人物名單格式錯誤。";
     $("namesStatus").className="status error";
     return false;
   }
 
   namesTable=table.slice(1);
-  $("namesEditor").value=table.map(
-    row=>"|"+row.join("|")+"|"
-  ).join("\n");
-
+  $("namesEditor").value=tableToMarkdown(table);
   tableView(table,"namesPreview");
 
   $("namesStatus").textContent=
@@ -804,31 +660,21 @@ function confirmNames() {
   return true;
 }
 
-function saveNames() {
+function saveNames(){
   $("namesEditor").value=$("namesResult").value;
   confirmNames();
 }
 
-function clearRelations() {
-  relationTable=[];
-  relationFormat="";
-  $("relationPrompt").value="";
-  $("manualRelationResult").value="";
-  $("relationEditor").value="";
-  $("relationPreview").replaceChildren();
-  $("relationStatus").textContent="";
-}
-
-function formatChanged() {
+function formatChanged(){
   clearRelations();
 }
 
-function confirmRelations() {
+function confirmRelations(){
   const table=parseMarkdown(
     $("relationEditor").value,relationHeader
   );
 
-  if(!table) {
+  if(!table){
     $("relationStatus").textContent=
       "關係表格式錯誤，請檢查 Binrel／MA 欄位。";
     $("relationStatus").className="status error";
@@ -837,33 +683,27 @@ function confirmRelations() {
 
   relationTable=table;
   relationFormat=$("format").value;
-  $("relationEditor").value=table.map(
-    row=>"|"+row.join("|")+"|"
-  ).join("\n");
+  $("relationEditor").value=tableToMarkdown(table);
 
   tableView(table,"relationPreview");
-
   $("relationStatus").textContent=
     "已確認 "+(table.length-1)+" 筆關係資料。";
   $("relationStatus").className="status success";
   return true;
 }
 
-function importRelationResult() {
+function importRelationResult(){
   $("relationEditor").value=$("manualRelationResult").value;
   confirmRelations();
 }
 
-function downloadTable(table,filename) {
-  if(!table.length) {
-    alert("請先確認表格資料。");
-    return;
-  }
+/* ===== CSV ===== */
 
+function downloadTable(table,filename){
+  if(!table.length){alert("請先確認表格資料。");return;}
   const quote=s=>'"'+String(s).replace(/"/g,'""')+'"';
-  const csv="\uFEFF"+table.map(
-    r=>r.map(quote).join(",")
-  ).join("\r\n");
+  const csv="\uFEFF"+table
+    .map(r=>r.map(quote).join(",")).join("\r\n");
 
   const blob=new Blob([csv],{
     type:"text/csv;charset=utf-8"
@@ -876,60 +716,55 @@ function downloadTable(table,filename) {
   document.body.appendChild(a);
   a.click();
   a.remove();
-
   setTimeout(()=>URL.revokeObjectURL(url),1000);
 }
 
-function downloadNames() {
-  if(!namesTable.length) {
-    alert("請先確認人物名單。");
-    return;
+function downloadNames(){
+  if(!namesTable.length){
+    alert("請先確認人物名單。");return;
   }
-
   downloadTable(
     [["filename","name"],...namesTable],
     "shiji_names.csv"
   );
 }
 
-function downloadRelations() {
+function downloadRelations(){
   if(!relationTable.length ||
-    relationFormat!==$("format").value) {
+     relationFormat!==$("format").value){
     alert("請先確認目前格式的關係表。");
     return;
   }
-
   downloadTable(
     relationTable,
     "shiji_"+relationFormat+".csv"
   );
 }
 
-/* ===== LLM API ===== */
-function apiSettings() {
+/* ===== API ===== */
+
+function apiSettings(){
   const key=$("apiKey").value.trim();
   const model=$("model").value.trim();
   const provider=$("provider").value;
 
-  if(!key) throw Error("請先輸入 API Key。");
-  if(!model) throw Error("請輸入模型名稱。");
-
+  if(!key)throw Error("請先輸入 API Key。");
+  if(!model)throw Error("請輸入模型名稱。");
   return {key,model,provider};
 }
 
-function errorFromResponse(payload,status) {
-  return payload?.error?.message ||
-    payload?.message ||
-    "API HTTP "+status+
-    "：請檢查模型、API Key 或額度。";
+function errorFromResponse(payload,status){
+  return payload?.error?.message||
+    payload?.message||
+    "API HTTP "+status+"，請檢查模型及 API 設定。";
 }
 
-async function callLLM(prompt) {
+async function callLLM(prompt){
   const {key,model,provider}=apiSettings();
   let response;
 
-  try {
-    if(provider==="openai") {
+  try{
+    if(provider==="openai"){
       response=await fetch(
         "https://api.openai.com/v1/chat/completions",{
           method:"POST",
@@ -943,7 +778,7 @@ async function callLLM(prompt) {
           })
         }
       );
-    }else if(provider==="gemini") {
+    }else if(provider==="gemini"){
       response=await fetch(
         "https://generativelanguage.googleapis.com/v1beta/models/"+
         encodeURIComponent(model)+":generateContent",{
@@ -954,13 +789,12 @@ async function callLLM(prompt) {
           },
           body:JSON.stringify({
             contents:[{
-              role:"user",
-              parts:[{text:prompt}]
+              role:"user",parts:[{text:prompt}]
             }]
           })
         }
       );
-    }else if(provider==="claude") {
+    }else if(provider==="claude"){
       response=await fetch(
         "https://api.anthropic.com/v1/messages",{
           method:"POST",
@@ -971,75 +805,69 @@ async function callLLM(prompt) {
             "anthropic-dangerous-direct-browser-access":"true"
           },
           body:JSON.stringify({
-            model,
-            max_tokens:4096,
+            model,max_tokens:4096,
             messages:[{role:"user",content:prompt}]
           })
         }
       );
-    }else {
+    }else{
       throw Error("不支援的供應商。");
     }
-  }catch(e) {
+  }catch(e){
     throw Error(
       "無法連接 API："+e.message+
-      "。可能需要使用安全代理服務。"
+      "。可能受到瀏覽器跨來源限制。"
     );
   }
 
   const raw=await response.text();
   let payload;
 
-  try {
-    payload=JSON.parse(raw);
-  }catch {
-    throw Error("API 回傳非 JSON 資料。");
-  }
+  try{payload=JSON.parse(raw);}
+  catch{throw Error("API 回傳非 JSON 資料。");}
 
-  if(!response.ok) {
+  if(!response.ok)
     throw Error(errorFromResponse(payload,response.status));
-  }
 
   let output="";
 
-  if(provider==="openai") {
+  if(provider==="openai"){
     const content=payload.choices?.[0]?.message?.content;
-    output=typeof content==="string"
-      ? content
-      : Array.isArray(content)
-      ? content.filter(x=>x.type==="text")
-               .map(x=>x.text).join("\n")
-      : "";
+    output=typeof content==="string"?content:
+      Array.isArray(content)?
+      content.filter(x=>x.type==="text")
+        .map(x=>x.text).join("\n"):"";
   }
 
-  if(provider==="gemini") {
+  if(provider==="gemini"){
     output=(payload.candidates?.[0]?.content?.parts||[])
-      .map(part=>part.text||"").join("\n");
+      .map(p=>p.text||"").join("\n");
   }
 
-  if(provider==="claude") {
+  if(provider==="claude"){
     output=(payload.content||[])
-      .filter(block=>block.type==="text")
-      .map(block=>block.text).join("\n");
+      .filter(x=>x.type==="text")
+      .map(x=>x.text).join("\n");
   }
 
-  if(!output.trim()) {
-    throw Error("API 未回傳可用的文字內容。");
-  }
+  if(!output.trim())
+    throw Error("API 未回傳可用文字。");
 
   return output.trim();
 }
 
-function setBusy(value) {
+function setBusy(value){
   busy=value;
   ["extractBtn","relationBtn","chatBtn"]
     .forEach(id=>$(id).disabled=value);
 }
 
-function addChat(role,message) {
+/* ===== AI 對話與新版表格套用 ===== */
+
+function addChat(role,message){
   const log=$("chatLog");
 
-  if(log.textContent==="尚未進行 API 分析。") {
+  if(log.textContent==="尚未進行 API 分析。"){
     log.replaceChildren();
   }
 
@@ -1051,43 +879,110 @@ function addChat(role,message) {
 
   const content=document.createElement("pre");
   content.textContent=message;
-
   box.append(name,content);
+
+  if(role==="assistant"){
+    const currentFormat=$("format").value;
+
+    const table=parseMarkdown(
+      message,
+      row=>headerForFormat(row,currentFormat)
+    );
+
+    if(table){
+      const area=document.createElement("div");
+      area.className="apply-area";
+
+      const info=document.createElement("p");
+      info.className="apply-note";
+      info.textContent=
+        "偵測到 "+currentFormat.toUpperCase()+
+        " 關係表，共 "+(table.length-1)+
+        " 筆。請確認這是完整表格再套用。";
+
+      const button=document.createElement("button");
+      button.textContent="將此關係表套用至步驟四";
+
+      button.addEventListener("click",()=>{
+        if($("format").value!==currentFormat){
+          alert("目前格式已變更，請先切回 "+
+            currentFormat.toUpperCase()+"。");
+          return;
+        }
+
+        const oldCount=relationTable.length?
+          relationTable.length-1:0;
+        const newCount=table.length-1;
+
+        const messageText=
+          "即將用 AI 回覆的關係表更新步驟四。\n\n"+
+          "原有資料："+oldCount+" 筆\n"+
+          "新版資料："+newCount+" 筆\n\n"+
+          (oldCount>newCount?
+            "注意：新版筆數比較少，可能只有部分資料。\n\n":"")+
+          "請確認 AI 已回覆完整表格。\n"+
+          "建議先下載舊版 CSV 備份。\n\n"+
+          "確定要覆蓋嗎？";
+
+        if(!confirm(messageText))return;
+
+        const previousText=$("relationEditor").value;
+        const previousTable=relationTable.map(r=>[...r]);
+        const previousFormat=relationFormat;
+
+        $("relationEditor").value=tableToMarkdown(table);
+
+        if(confirmRelations()){
+          $("relationStatus").textContent=
+            "已套用 AI 修正版，共 "+
+            (table.length-1)+" 筆資料。"+
+            "可在下方下載新版 CSV。";
+          $("relationEditor").scrollIntoView({
+            behavior:"smooth",block:"center"
+          });
+        }else{
+          $("relationEditor").value=previousText;
+          relationTable=previousTable;
+          relationFormat=previousFormat;
+          if(previousTable.length)
+            tableView(previousTable,"relationPreview");
+          alert("更新失敗，已恢復原本資料。");
+        }
+      });
+
+      area.append(info,button);
+      box.appendChild(area);
+    }
+  }
+
   log.appendChild(box);
   log.scrollTop=log.scrollHeight;
 }
 
-async function extractByAPI() {
-  if(busy) return;
+/* ===== API 人物提取 ===== */
 
+async function extractByAPI(){
+  if(busy)return;
   let prompt;
-  try {
+
+  try{
     apiSettings();
     prompt=buildNamesPrompt();
-  }catch(e) {
-    alert(e.message);
-    return;
-  }
+  }catch(e){alert(e.message);return;}
 
   setBusy(true);
   $("namesStatus").textContent="正在透過 API 提取人物……";
   $("namesStatus").className="status busy";
 
-  try {
+  try{
     const answer=await callLLM(prompt);
     const table=parseMarkdown(answer,namesHeader);
-
-    if(!table) {
+    if(!table)
       throw Error("模型回覆不是有效的人物名單表格。");
-    }
 
-    $("namesEditor").value=table.map(
-      r=>"|"+r.join("|")+"|"
-    ).join("\n");
-
-    if(!confirmNames()) {
+    $("namesEditor").value=tableToMarkdown(table);
+    if(!confirmNames())
       throw Error("人物名單無法保存。");
-    }
 
     chatHistory=[
       {role:"user",content:prompt},
@@ -1097,81 +992,66 @@ async function extractByAPI() {
     $("chatLog").replaceChildren();
     addChat("user","請依原文提取人物名單。");
     addChat("assistant",answer);
-
-  }catch(e) {
-    $("namesStatus").textContent="人物提取失敗："+e.message;
+  }catch(e){
+    $("namesStatus").textContent=
+      "人物提取失敗："+e.message;
     $("namesStatus").className="status error";
-  }finally {
-    setBusy(false);
-  }
+  }finally{setBusy(false);}
 }
 
-async function relationsByAPI() {
-  if(busy) return;
+/* ===== API 人物關係分析 ===== */
 
+async function relationsByAPI(){
+  if(busy)return;
   let prompt;
-  try {
+
+  try{
     apiSettings();
     prompt=buildRelationPrompt();
-  }catch(e) {
-    alert(e.message);
-    return;
-  }
+  }catch(e){alert(e.message);return;}
 
   setBusy(true);
   $("relationStatus").textContent="正在分析人物關係……";
   $("relationStatus").className="status busy";
 
-  try {
+  try{
     const answer=await callLLM(prompt);
     const table=parseMarkdown(answer,relationHeader);
-
-    if(!table) {
+    if(!table)
       throw Error("模型回覆不符合關係表格式。");
-    }
 
-    $("relationEditor").value=table.map(
-      r=>"|"+r.join("|")+"|"
-    ).join("\n");
-
-    if(!confirmRelations()) {
+    $("relationEditor").value=tableToMarkdown(table);
+    if(!confirmRelations())
       throw Error("關係表無法保存。");
-    }
 
     chatHistory.push(
       {role:"user",content:prompt},
       {role:"assistant",content:answer}
     );
 
-    addChat(
-      "user",
-      "請產生 "+$("format").value+" 關係表。"
-    );
+    addChat("user",
+      "請產生 "+$("format").value+" 關係表。");
     addChat("assistant",answer);
-
-  }catch(e) {
-    $("relationStatus").textContent="關係分析失敗："+e.message;
+  }catch(e){
+    $("relationStatus").textContent=
+      "關係分析失敗："+e.message;
     $("relationStatus").className="status error";
-  }finally {
-    setBusy(false);
-  }
+  }finally{setBusy(false);}
 }
 
-async function sendChat() {
-  if(busy) return;
+/* ===== API 補充對話 ===== */
 
+async function sendChat(){
+  if(busy)return;
   const message=$("chatInput").value.trim();
-  if(!message) {
+
+  if(!message){
     alert("請先輸入補充指令。");
     return;
   }
 
-  try {
-    apiSettings();
-  }catch(e) {
-    alert(e.message);
-    return;
-  }
+  try{apiSettings();}
+  catch(e){alert(e.message);return;}
 
   const context=chatHistory.slice(-6)
     .map(item=>
@@ -1179,36 +1059,45 @@ async function sendChat() {
       item.content
     ).join("\n\n");
 
+  const currentData=relationTable.length?
+    tableToMarkdown(relationTable):"尚未建立關係表";
+
   const prompt=commonRules+
+    "\n\n原文：\n"+$("source").value+
     "\n\n先前對話：\n"+context+
-    "\n\n目前確認的人物名單：\n"+
+    "\n\n已確認人物名單：\n"+
     namesTable.map(r=>r.join(" | ")).join("\n")+
-    "\n\n新指令：\n"+message;
+    "\n\n目前關係表：\n"+currentData+
+    "\n\n目前輸出格式："+$("format").value+
+    "\n\n研究者的新指令：\n"+message+
+    "\n\n如果要求修改關係表，"+
+    "請輸出包含全部資料列的完整 Markdown 表格，"+
+    "不要只輸出修改部分。";
 
   setBusy(true);
   addChat("user",message);
   $("chatInput").value="";
 
-  try {
+  try{
     const answer=await callLLM(prompt);
     addChat("assistant",answer);
-
     chatHistory.push(
       {role:"user",content:message},
       {role:"assistant",content:answer}
     );
-  }catch(e) {
+  }catch(e){
     addChat("assistant","API 呼叫失敗："+e.message);
-  }finally {
-    setBusy(false);
-  }
+  }finally{setBusy(false);}
 }
 
-$("source").addEventListener("input",resetResults);
+/* ===== 初始化 ===== */
+
+$("source").addEventListener("input",()=>{
+  if(!busy)resetResults();
+});
 
 $("model").value=defaults.openai;
 setMode("manual");
 </script>
-
 </body>
 </html>
