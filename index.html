@@ -3,23 +3,27 @@
 <html lang="zh-Hant">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>史記toBinrel｜古籍人物關係分析</title>
 <style>
-:root{
+:root {
   font-family:system-ui,"Microsoft JhengHei",sans-serif;
   color:#25384b;background:#f3f6f9;
 }
 *{box-sizing:border-box}
 body{margin:0}
 header{
-  position:relative;min-height:230px;
-  display:flex;align-items:center;justify-content:center;
+  position:relative;
+  min-height:230px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
   padding:32px 20px;
-  background:#193b56;color:white;
+  background:#193b56;
+  color:white;
 }
-.banner-title{width:100%;text-align:center}
-.banner-title h1{margin:0 0 8px;font-size:2rem}
+.banner-title{text-align:center;width:100%}
+.banner-title h1{font-size:2rem;margin:0 0 8px}
 .banner-title p{margin:0;color:#dce8f2;line-height:1.5}
 .banner-logos{
   position:absolute;top:22px;
@@ -28,16 +32,16 @@ header{
   align-items:flex-end;gap:14px;width:195px;
 }
 .banner-logos a{
-  display:block;max-width:100%;line-height:0;
-  border-radius:5px;
+  display:block;max-width:100%;
+  line-height:0;border-radius:5px;
 }
 .banner-logos a:hover{opacity:.8}
 .banner-logos a:focus-visible{
   outline:3px solid white;outline-offset:4px;
 }
 .banner-logos img{
-  display:block;max-width:100%;height:auto;
-  object-fit:contain;
+  display:block;max-width:100%;
+  height:auto;object-fit:contain;
 }
 .history-logo{width:195px}
 .docusky-logo{width:170px}
@@ -47,7 +51,6 @@ section{
   border-radius:12px;padding:22px;margin-bottom:18px;
 }
 h2{font-size:1.2rem;margin:0 0 13px}
-h3{font-size:1.05rem;margin:16px 0 10px}
 label{display:block;font-weight:600;margin:12px 0 6px}
 textarea,input,select{
   width:100%;padding:11px;font:inherit;
@@ -86,8 +89,9 @@ button:disabled{opacity:.55;cursor:not-allowed}
 .scroll{overflow-x:auto}
 table{border-collapse:collapse;width:100%;margin-top:12px}
 th,td{
-  border:1px solid #ccd6e0;padding:9px;text-align:left;
-  vertical-align:top;overflow-wrap:anywhere;
+  border:1px solid #ccd6e0;padding:9px;
+  text-align:left;vertical-align:top;
+  overflow-wrap:anywhere;
 }
 th{background:#eaf1f8}
 .status{white-space:pre-wrap;font-weight:600;line-height:1.6}
@@ -104,11 +108,12 @@ th{background:#eaf1f8}
 }
 .message.user{background:#e8f1fa;margin-left:8%}
 .message.assistant{
-  background:white;border:1px solid #dce5ee;margin-right:5%;
+  background:white;border:1px solid #dce5ee;
+  margin-right:5%;
 }
 .message pre{
-  white-space:pre-wrap;overflow-wrap:anywhere;font:inherit;
-  max-height:330px;overflow:auto;
+  white-space:pre-wrap;overflow-wrap:anywhere;
+  font:inherit;max-height:330px;overflow:auto;
 }
 .apply-area{
   border-top:1px solid #e2e8ef;
@@ -122,7 +127,8 @@ footer{text-align:center;color:#667b8d;padding:20px}
 @media(max-width:1000px){
   header{flex-direction:column;gap:20px;padding:28px 16px}
   .banner-logos{
-    position:static;width:100%;align-items:center;gap:12px;
+    position:static;width:100%;
+    align-items:center;gap:12px;
   }
 }
 @media(max-width:640px){
@@ -132,21 +138,20 @@ footer{text-align:center;color:#667b8d;padding:20px}
 }
 </style>
 </head>
-
 <body>
+
 <header>
   <div class="banner-title">
     <h1>史記 to Binrel</h1>
     <p>古籍人物提取與關係網絡正規化工具</p>
     <p style="margin-top:8px;font-size:.86rem">
-      A3.1 雙模式版
+      A3.2 雙模式版
     </p>
   </div>
-
   <div class="banner-logos">
     <a href="https://history.ncue.edu.tw/"
        target="_blank" rel="noopener noreferrer"
-       title="彰師大歷史所首頁">
+       title="國立彰化師範大學歷史學研究所">
       <img src="images/history-logo.png"
            alt="國立彰化師範大學歷史學研究所"
            class="history-logo">
@@ -162,195 +167,203 @@ footer{text-align:center;color:#667b8d;padding:20px}
 </header>
 
 <main>
+
 <section>
-<h2>一、選擇分析模式</h2>
-<div class="mode-grid">
-  <button id="manualBtn" class="mode-card active"
-          onclick="setMode('manual')">
-    <strong>模式一：ChatGPT 手動轉貼（預設）</strong>
-    <span>需將文本與生成提示詞在網頁與個人的
-    ChatGPT 中轉貼。不需要 API Key。</span>
-  </button>
-  <button id="apiBtn" class="mode-card"
-          onclick="setMode('api')">
-    <strong>模式二：LLM API 自動分析</strong>
-    <span>輸入大語言模型 API Key，即可在本頁
-    完成人物提取、關係分析與正規化格式生成。</span>
-  </button>
-</div>
+  <h2>一、選擇分析模式</h2>
+  <div class="mode-grid">
+    <button id="manualBtn" class="mode-card active"
+            onclick="setMode('manual')">
+      <strong>模式一：ChatGPT 手動轉貼（預設）</strong>
+      <span>
+        需將文本與生成提示詞在網頁與個人的
+        ChatGPT 中轉貼。不需要 API Key。
+      </span>
+    </button>
+    <button id="apiBtn" class="mode-card"
+            onclick="setMode('api')">
+      <strong>模式二：LLM API 自動分析</strong>
+      <span>
+        輸入大語言模型 API Key，即可在本頁
+        完成人物提取、關係分析與正規化格式生成。
+      </span>
+    </button>
+  </div>
 </section>
 
 <section id="apiSettings" class="hidden">
-<h2>二、設定 LLM API</h2>
-<label for="provider">AI 供應商</label>
-<select id="provider" onchange="changeProvider()">
-  <option value="openai">OpenAI（GPT）</option>
-  <option value="gemini">Google（Gemini）</option>
-  <option value="claude">Anthropic（Claude）</option>
-</select>
-
-<label for="model">模型名稱</label>
-<input id="model" spellcheck="false">
-<p class="small">可自行修改模型名稱。模型是否可用，
-取決於供應商及 API 帳戶權限。</p>
-
-<label for="apiKey">使用者自己的 API Key</label>
-<input id="apiKey" type="password"
-       autocomplete="off" spellcheck="false"
-       placeholder="請輸入 API Key">
-
-<label>
-  <input id="showKey" type="checkbox" style="width:auto"
-         onchange="toggleKey()">
-  顯示 API Key
-</label>
-
-<div class="warning">
-  本版採用瀏覽器直接呼叫 API 的測試架構。
-  API Key 不會寫入原始碼，也不會儲存於 localStorage，
-  但仍可能暴露於使用者的瀏覽器環境。
-  請使用設有用量限制的測試金鑰。
-  部分供應商可能受到瀏覽器跨來源限制。
-  API 費用由使用者自己的帳戶負擔。
-</div>
-</section>
-
-<section>
-<h2>輸入《史記》原文</h2>
-<p class="small">每段以檔名開頭，例如「項羽本紀001」。
-可以一次貼入多個段落。</p>
-<textarea id="source" rows="10"
- placeholder="項羽本紀001&#10;項籍者，下相人也，字羽。..."></textarea>
-<button onclick="loadSample()">載入範例</button>
-<button class="secondary" onclick="clearAll()">清除資料</button>
-</section>
-
-<section>
-<h2>三、人物提取</h2>
-
-<div id="manualNames">
-  <p class="small">產生人物提取指令，複製到 ChatGPT，
-  再將回傳表格貼回本頁。</p>
-  <button onclick="makeNamesPrompt()">產生人物提取指令</button>
-  <label for="namesPrompt">人物提取指令</label>
-  <textarea id="namesPrompt" rows="9" readonly></textarea>
-  <button onclick="copyText('namesPrompt')">複製人物提取指令</button>
-  <a class="button" href="https://chatgpt.com/"
-     target="_blank" rel="noopener noreferrer">開啟 ChatGPT</a>
-
-  <label for="namesResult">貼上人物名單表格</label>
-  <textarea id="namesResult" rows="6"></textarea>
-  <button onclick="saveNames()">保存人物名單</button>
-</div>
-
-<div id="apiNames" class="hidden">
-  <p class="small">直接使用 API 提取人物，
-  結果顯示於下方，並可人工校訂。</p>
-  <button id="extractBtn" onclick="extractByAPI()">
-    使用 API 提取人物
-  </button>
-</div>
-
-<p id="namesStatus" class="status" role="status"></p>
-<label for="namesEditor">已辨識的人物名單（可編輯）</label>
-<textarea id="namesEditor" rows="7"></textarea>
-<button onclick="confirmNames()">確認並保存人物名單</button>
-<div id="namesPreview" class="scroll"></div>
-</section>
-
-<section>
-<h2>四、人物關係分析</h2>
-
-<label for="format">輸出格式</label>
-<select id="format" onchange="formatChanged()">
-  <option value="binrel">Binrel 格式</option>
-  <option value="ma">MA 格式</option>
-</select>
-
-<div id="manualRelations">
-  <p class="small">根據已確認的人物名單產生指令，
-  再複製到 ChatGPT。</p>
-  <button onclick="makeRelationPrompt()">產生關係分析指令</button>
-  <label for="relationPrompt">關係分析指令</label>
-  <textarea id="relationPrompt" rows="10" readonly></textarea>
-  <button onclick="copyText('relationPrompt')">
-    複製關係分析指令
-  </button>
-  <a class="button" href="https://chatgpt.com/"
-     target="_blank" rel="noopener noreferrer">開啟 ChatGPT</a>
-
-  <label for="manualRelationResult">
-    貼上 ChatGPT 回傳的關係表
+  <h2>二、設定 LLM API</h2>
+  <label for="provider">AI 供應商</label>
+  <select id="provider" onchange="changeProvider()">
+    <option value="openai">OpenAI（GPT）</option>
+    <option value="gemini">Google（Gemini）</option>
+    <option value="claude">Anthropic（Claude）</option>
+  </select>
+  <label for="model">模型名稱</label>
+  <input id="model" spellcheck="false">
+  <p class="small">
+    可自行輸入模型名稱。模型是否可用，
+    取決於供應商與 API 帳戶權限。
+  </p>
+  <label for="apiKey">您的 API Key</label>
+  <input id="apiKey" type="password"
+         autocomplete="off" spellcheck="false"
+         placeholder="請輸入 API Key">
+  <label>
+    <input id="showKey" type="checkbox"
+           style="width:auto" onchange="toggleKey()">
+    顯示 API Key
   </label>
-  <textarea id="manualRelationResult" rows="7"></textarea>
-  <button onclick="importRelationResult()">解析並保存關係表</button>
-</div>
+  <div class="warning">
+    本版為瀏覽器直接呼叫 API 的測試架構。
+    API Key 不會寫入公開程式碼或 localStorage，
+    但仍存在瀏覽器暴露風險。
+    請使用設有額度限制的測試金鑰。
+    部分供應商可能受到瀏覽器跨來源限制。
+  </div>
+</section>
 
-<div id="apiRelations" class="hidden">
-  <p class="small">使用 API 依據原文與已確認人物名單，
-  產生 Binrel 或 MA 關係表。</p>
-  <button id="relationBtn" onclick="relationsByAPI()">
-    使用 API 生成關係表
+<section>
+  <h2 id="sourceTitle">二、輸入《史記》原文</h2>
+  <p class="small">
+    每個段落以檔名開頭，例如「項羽本紀001」。
+    可一次貼入多個段落。
+  </p>
+  <textarea id="source" rows="10"
+    placeholder="項羽本紀001&#10;項籍者，下相人也，字羽。..."></textarea>
+  <button onclick="loadSample()">載入範例</button>
+  <button class="secondary" onclick="clearAll()">清除資料</button>
+</section>
+
+<section>
+  <h2>三、人物提取</h2>
+  <div id="manualNames">
+    <p class="small">
+      產生人物提取指令，複製到 ChatGPT，
+      再將回傳表格貼回本頁。
+    </p>
+    <button onclick="makeNamesPrompt()">產生人物提取指令</button>
+    <label for="namesPrompt">人物提取指令</label>
+    <textarea id="namesPrompt" rows="9" readonly></textarea>
+    <button onclick="copyText('namesPrompt')">
+      複製人物提取指令
+    </button>
+    <a class="button" href="https://chatgpt.com/"
+       target="_blank" rel="noopener noreferrer">
+      開啟 ChatGPT
+    </a>
+    <label for="namesResult">貼上人物名單表格</label>
+    <textarea id="namesResult" rows="6"></textarea>
+    <button onclick="saveNames()">保存人物名單</button>
+  </div>
+  <div id="apiNames" class="hidden">
+    <p class="small">
+      直接使用 API 提取人物，結果顯示在下方，
+      並可人工修正。
+    </p>
+    <button id="extractBtn" onclick="extractByAPI()">
+      使用 API 提取人物
+    </button>
+  </div>
+  <p id="namesStatus" class="status" role="status"></p>
+  <label for="namesEditor">已辨識的人物名單（可編輯）</label>
+  <textarea id="namesEditor" rows="7"></textarea>
+  <button onclick="confirmNames()">確認並保存人物名單</button>
+  <div id="namesPreview" class="scroll"></div>
+</section>
+
+<section>
+  <h2>四、人物關係分析</h2>
+  <label for="format">輸出格式</label>
+  <select id="format" onchange="formatChanged()">
+    <option value="binrel">Binrel 格式</option>
+    <option value="ma">MA 格式</option>
+  </select>
+  <div id="manualRelations">
+    <p class="small">
+      根據已確認的人物名單產生指令，
+      再複製到 ChatGPT。
+    </p>
+    <button onclick="makeRelationPrompt()">
+      產生關係分析指令
+    </button>
+    <label for="relationPrompt">關係分析指令</label>
+    <textarea id="relationPrompt" rows="10" readonly></textarea>
+    <button onclick="copyText('relationPrompt')">
+      複製關係分析指令
+    </button>
+    <a class="button" href="https://chatgpt.com/"
+       target="_blank" rel="noopener noreferrer">
+      開啟 ChatGPT
+    </a>
+    <label for="manualRelationResult">
+      貼上 ChatGPT 回傳的關係表
+    </label>
+    <textarea id="manualRelationResult" rows="7"></textarea>
+    <button onclick="importRelationResult()">解析並保存關係表</button>
+  </div>
+  <div id="apiRelations" class="hidden">
+    <p class="small">
+      使用 API 依據原文及已確認的人物名單，
+      自動產生 Binrel 或 MA 關係表。
+    </p>
+    <button id="relationBtn" onclick="relationsByAPI()">
+      使用 API 生成關係表
+    </button>
+  </div>
+  <p id="relationStatus" class="status" role="status"></p>
+  <label for="relationEditor">人物關係結果（可編輯）</label>
+  <textarea id="relationEditor" rows="10"></textarea>
+  <button onclick="confirmRelations()">確認關係表格</button>
+  <button onclick="downloadRelations()">下載關係 CSV</button>
+  <button class="secondary" onclick="downloadNames()">
+    下載人物名單 CSV
   </button>
-</div>
-
-<p id="relationStatus" class="status" role="status"></p>
-
-<label for="relationEditor">人物關係結果（可編輯）</label>
-<textarea id="relationEditor" rows="10"></textarea>
-
-<button onclick="confirmRelations()">確認關係表格</button>
-<button onclick="downloadRelations()">下載關係 CSV</button>
-<button class="secondary" onclick="downloadNames()">
-  下載人物名單 CSV
-</button>
-
-<p class="small note">
-  第五步 AI 對話修改後的完整表格，可以透過
-  「將此關係表套用至步驟四」更新這裡。
-  更新前可以先下載舊版 CSV 作為備份。
-</p>
-<div id="relationPreview" class="scroll"></div>
+  <p class="small note">
+    在第五步的 API 對話區修改人物關係後，
+    可將 AI 回傳的新表格套用至這裡。
+    建議更新前先下載舊版 CSV。
+  </p>
+  <div id="relationPreview" class="scroll"></div>
 </section>
 
 <section id="chatSection" class="hidden">
-<h2>五、API 分析對話區</h2>
-<p class="small">
-  您可以要求 AI 重新檢查人物異名、修改關係，
-  或重新輸出完整的 Binrel／MA 表格。
-  當 AI 回覆有效關係表時，回覆下方會出現套用按鈕。
-  套用前會先詢問您是否確認覆蓋第四步資料。
-</p>
-
-<div id="chatLog" aria-live="polite">
-  <p class="small">尚未進行 API 分析。</p>
-</div>
-
-<label for="chatInput">補充分析與修正指令</label>
-<textarea id="chatInput" rows="4"
- placeholder="請根據我的修正意見，重新輸出完整的 Binrel 表格，保留所有未修改的資料列。"></textarea>
-<button id="chatBtn" onclick="sendChat()">傳送訊息</button>
+  <h2>五、API 分析對話區</h2>
+  <p class="small">
+    可要求 AI 修改人物關係、檢查異名，
+    或重新輸出完整的 Binrel／MA 表格。
+    如回覆包含有效關係表，會顯示套用按鈕，
+    由研究者確認後更新第四步。
+  </p>
+  <div id="chatLog" aria-live="polite">
+    <p class="small">尚未進行 API 分析。</p>
+  </div>
+  <label for="chatInput">補充分析與修正指令</label>
+  <textarea id="chatInput" rows="4"
+    placeholder="請根據修正意見，重新輸出完整的 Binrel 表格，保留未修改的資料列。"></textarea>
+  <button id="chatBtn" onclick="sendChat()">傳送訊息</button>
 </section>
 
 <section>
-<h2>DocuSky 關係視覺化</h2>
-<p class="small">下載 Binrel CSV 後，
-可前往 DocuSky 二元視覺化關聯圖工具。</p>
-<a class="button"
- href="https://docusky.org.tw/DocuSky/docuTools/Lites/GraphViz/BinRelLite.html"
- target="_blank" rel="noopener noreferrer">
- 二元視覺化關聯圖
-</a>
+  <!-- 依據模式自動改變編號 -->
+  <h2 id="docuskyTitle">五、DocuSky 關係視覺化</h2>
+  <p class="small">
+    下載 Binrel CSV 後，可開啟 DocuSky
+    二元視覺化關聯圖工具。
+  </p>
+  <a class="button"
+     href="https://docusky.org.tw/DocuSky/docuTools/Lites/GraphViz/BinRelLite.html"
+     target="_blank" rel="noopener noreferrer">
+    二元視覺化關聯圖
+  </a>
 </section>
-</main>
 
-<footer>史記toBinrel A3.1｜數位人文研究工具</footer>
+</main>
+<footer>史記toBinrel A3.2｜數位人文研究工具</footer>
 
 <script>
 "use strict";
 
 const $=id=>document.getElementById(id);
-
 let currentMode="manual";
 let namesTable=[];
 let relationTable=[];
@@ -374,9 +387,9 @@ const commonRules=`你是研究司馬遷《史記》的專家。
 
 請嚴格遵守：
 1. 只能依據提供的原文，不得加入外部史實。
-2. 依段落標題辨識來源，例「項羽本紀001」標準化為「項羽本紀_001.txt」。
+2. 依段落標題辨識來源，例如「項羽本紀001」標準化為「項羽本紀_001.txt」。
 3. 辨識人物、別名、字和簡稱。
-4. 有明確證據的異名須統一，如項籍、籍、項羽。
+4. 有明確證據的異名須統一，例如項籍、籍、項羽。
 5. 不將地名、官職或氏族直接視為人物。
 6. 不推測文本沒有依據的人物關係。
 7. 每筆結果必須對應來源段落。
@@ -392,7 +405,7 @@ const namesRules=`提取各段落人物名單。
 |--|--|
 |項羽本紀_001.txt|項羽;項梁;項燕;王翦|
 
-每個段落一列，同段人物不可重複。
+每段一列，同段人物不可重複。
 多個人物以半形分號 ; 分隔。
 此階段不產生人物關係。`;
 
@@ -405,11 +418,11 @@ const binrelRules=`依據原文及已確認人物名單，
 |項羽|項梁|叔叔|項羽本紀_001.txt|
 |項梁|項羽|教兵法|項羽本紀_002.txt|
 
-每列僅有一組人物關係。
-source、target 都必須是人物。
+每列僅一組人物關係。
+source、target 都是人物。
 relType 是關係名稱。
 relMeta 是來源段落檔名。
-遵守原始史記toBinrel示例的關係命名與方向。
+遵守原始史記toBinrel的關係命名和方向。
 不可增加其他欄位。`;
 
 const maRules=`依據原文及已確認人物名單，
@@ -425,9 +438,10 @@ const maRules=`依據原文及已確認人物名單，
 每欄是 binrel/關係名稱。
 同一格多組關係用半形分號 ; 分隔。
 沒有該關係的格子留空。
-遵守原始史記toBinrel示例的關係方向。
+遵守原始史記toBinrel的關係命名和方向。
 可依原文增加關係欄位。`;
 
+/* ===== 模式切換與自動編號 ===== */
 function setMode(mode){
   if(busy)return;
   currentMode=mode;
@@ -438,8 +452,18 @@ function setMode(mode){
 
   ["apiSettings","apiNames","apiRelations","chatSection"]
     .forEach(id=>$(id).classList.toggle("hidden",!api));
+
   ["manualNames","manualRelations"]
     .forEach(id=>$(id).classList.toggle("hidden",api));
+
+  // A2 顯示第五步；API 模式顯示第六步
+  $("docuskyTitle").textContent=api
+    ? "六、DocuSky 關係視覺化"
+    : "五、DocuSky 關係視覺化";
+
+  $("sourceTitle").textContent=api
+    ? "二、輸入《史記》原文"
+    : "二、輸入《史記》原文";
 }
 
 function changeProvider(){
@@ -533,8 +557,7 @@ async function copyText(id){
   }
 }
 
-/* ===== 表格解析 ===== */
-
+/* ===== Markdown 表格解析 ===== */
 function normalizeMarkdown(text){
   return text
     .replace(/\r\n?/g,"\n")
@@ -560,10 +583,12 @@ function parseMarkdown(text,headerCheck){
 
   for(let i=0;i<lines.length;i++){
     if(!lines[i].startsWith("|"))continue;
+
     const header=splitRow(lines[i]);
     if(!headerCheck(header))continue;
 
     const rows=[header];
+
     for(let j=i+1;j<lines.length;j++){
       if(!lines[j].startsWith("|")){
         if(rows.length>1)break;
@@ -576,7 +601,6 @@ function parseMarkdown(text,headerCheck){
       if(headerCheck(row))break;
       rows.push(row);
     }
-
     if(rows.length>1)return rows;
   }
   return null;
@@ -605,7 +629,6 @@ function relationHeader(row){
 
 function tableView(table,target){
   const t=document.createElement("table");
-
   table.forEach((row,i)=>{
     const tr=document.createElement("tr");
     row.forEach(value=>{
@@ -615,16 +638,13 @@ function tableView(table,target){
     });
     t.appendChild(tr);
   });
-
   $(target).replaceChildren(t);
 }
 
 function tableToMarkdown(table){
-  const width=table[0].length;
-  const separator=Array(width).fill("---");
+  const separator=Array(table[0].length).fill("---");
   return [table[0],separator,...table.slice(1)]
-    .map(row=>"|"+row.join("|")+"|")
-    .join("\n");
+    .map(row=>"|"+row.join("|")+"|").join("\n");
 }
 
 function clearRelations(){
@@ -655,7 +675,6 @@ function confirmNames(){
   $("namesStatus").textContent=
     "已確認 "+namesTable.length+" 個段落的人物名單。";
   $("namesStatus").className="status success";
-
   clearRelations();
   return true;
 }
@@ -684,8 +703,8 @@ function confirmRelations(){
   relationTable=table;
   relationFormat=$("format").value;
   $("relationEditor").value=tableToMarkdown(table);
-
   tableView(table,"relationPreview");
+
   $("relationStatus").textContent=
     "已確認 "+(table.length-1)+" 筆關係資料。";
   $("relationStatus").className="status success";
@@ -697,10 +716,10 @@ function importRelationResult(){
   confirmRelations();
 }
 
-/* ===== CSV ===== */
-
+/* ===== CSV 下載 ===== */
 function downloadTable(table,filename){
   if(!table.length){alert("請先確認表格資料。");return;}
+
   const quote=s=>'"'+String(s).replace(/"/g,'""')+'"';
   const csv="\uFEFF"+table
     .map(r=>r.map(quote).join(",")).join("\r\n");
@@ -708,14 +727,15 @@ function downloadTable(table,filename){
   const blob=new Blob([csv],{
     type:"text/csv;charset=utf-8"
   });
+
   const url=URL.createObjectURL(blob);
   const a=document.createElement("a");
-
   a.href=url;
   a.download=filename;
   document.body.appendChild(a);
   a.click();
   a.remove();
+
   setTimeout(()=>URL.revokeObjectURL(url),1000);
 }
 
@@ -741,8 +761,7 @@ function downloadRelations(){
   );
 }
 
-/* ===== API ===== */
-
+/* ===== LLM API ===== */
 function apiSettings(){
   const key=$("apiKey").value.trim();
   const model=$("model").value.trim();
@@ -750,6 +769,7 @@ function apiSettings(){
 
   if(!key)throw Error("請先輸入 API Key。");
   if(!model)throw Error("請輸入模型名稱。");
+
   return {key,model,provider};
 }
 
@@ -789,7 +809,8 @@ async function callLLM(prompt){
           },
           body:JSON.stringify({
             contents:[{
-              role:"user",parts:[{text:prompt}]
+              role:"user",
+              parts:[{text:prompt}]
             }]
           })
         }
@@ -826,8 +847,9 @@ async function callLLM(prompt){
   try{payload=JSON.parse(raw);}
   catch{throw Error("API 回傳非 JSON 資料。");}
 
-  if(!response.ok)
+  if(!response.ok){
     throw Error(errorFromResponse(payload,response.status));
+  }
 
   let output="";
 
@@ -850,9 +872,9 @@ async function callLLM(prompt){
       .map(x=>x.text).join("\n");
   }
 
-  if(!output.trim())
+  if(!output.trim()){
     throw Error("API 未回傳可用文字。");
-
+  }
   return output.trim();
 }
 
@@ -862,8 +884,7 @@ function setBusy(value){
     .forEach(id=>$(id).disabled=value);
 }
 
-/* ===== AI 對話與新版表格套用 ===== */
-
+/* ===== 對話與修正表格回填 ===== */
 function addChat(role,message){
   const log=$("chatLog");
 
@@ -883,10 +904,8 @@ function addChat(role,message){
 
   if(role==="assistant"){
     const currentFormat=$("format").value;
-
     const table=parseMarkdown(
-      message,
-      row=>headerForFormat(row,currentFormat)
+      message,row=>headerForFormat(row,currentFormat)
     );
 
     if(table){
@@ -897,16 +916,15 @@ function addChat(role,message){
       info.className="apply-note";
       info.textContent=
         "偵測到 "+currentFormat.toUpperCase()+
-        " 關係表，共 "+(table.length-1)+
-        " 筆。請確認這是完整表格再套用。";
+        " 表格，共 "+(table.length-1)+
+        " 筆。請確認內容完整。";
 
       const button=document.createElement("button");
       button.textContent="將此關係表套用至步驟四";
 
       button.addEventListener("click",()=>{
         if($("format").value!==currentFormat){
-          alert("目前格式已變更，請先切回 "+
-            currentFormat.toUpperCase()+"。");
+          alert("目前格式已變更，請切回原本格式。");
           return;
         }
 
@@ -914,17 +932,16 @@ function addChat(role,message){
           relationTable.length-1:0;
         const newCount=table.length-1;
 
-        const messageText=
-          "即將用 AI 回覆的關係表更新步驟四。\n\n"+
+        const question=
+          "即將用 AI 回覆的表格更新步驟四。\n\n"+
           "原有資料："+oldCount+" 筆\n"+
           "新版資料："+newCount+" 筆\n\n"+
-          (oldCount>newCount?
-            "注意：新版筆數比較少，可能只有部分資料。\n\n":"")+
-          "請確認 AI 已回覆完整表格。\n"+
-          "建議先下載舊版 CSV 備份。\n\n"+
-          "確定要覆蓋嗎？";
+          (newCount<oldCount?
+            "注意：新版筆數較少，可能不完整。\n\n":"")+
+          "建議先下載舊版 CSV。\n"+
+          "確定覆蓋嗎？";
 
-        if(!confirm(messageText))return;
+        if(!confirm(question))return;
 
         const previousText=$("relationEditor").value;
         const previousTable=relationTable.map(r=>[...r]);
@@ -935,8 +952,8 @@ function addChat(role,message){
         if(confirmRelations()){
           $("relationStatus").textContent=
             "已套用 AI 修正版，共 "+
-            (table.length-1)+" 筆資料。"+
-            "可在下方下載新版 CSV。";
+            newCount+" 筆。可下載新版 CSV。";
+
           $("relationEditor").scrollIntoView({
             behavior:"smooth",block:"center"
           });
@@ -944,8 +961,11 @@ function addChat(role,message){
           $("relationEditor").value=previousText;
           relationTable=previousTable;
           relationFormat=previousFormat;
-          if(previousTable.length)
+
+          if(previousTable.length){
             tableView(previousTable,"relationPreview");
+          }
+
           alert("更新失敗，已恢復原本資料。");
         }
       });
@@ -960,7 +980,6 @@ function addChat(role,message){
 }
 
 /* ===== API 人物提取 ===== */
-
 async function extractByAPI(){
   if(busy)return;
   let prompt;
@@ -977,12 +996,15 @@ async function extractByAPI(){
   try{
     const answer=await callLLM(prompt);
     const table=parseMarkdown(answer,namesHeader);
-    if(!table)
+
+    if(!table){
       throw Error("模型回覆不是有效的人物名單表格。");
+    }
 
     $("namesEditor").value=tableToMarkdown(table);
-    if(!confirmNames())
+    if(!confirmNames()){
       throw Error("人物名單無法保存。");
+    }
 
     chatHistory=[
       {role:"user",content:prompt},
@@ -999,8 +1021,7 @@ async function extractByAPI(){
   }finally{setBusy(false);}
 }
 
-/* ===== API 人物關係分析 ===== */
-
+/* ===== API 關係分析 ===== */
 async function relationsByAPI(){
   if(busy)return;
   let prompt;
@@ -1017,12 +1038,15 @@ async function relationsByAPI(){
   try{
     const answer=await callLLM(prompt);
     const table=parseMarkdown(answer,relationHeader);
-    if(!table)
+
+    if(!table){
       throw Error("模型回覆不符合關係表格式。");
+    }
 
     $("relationEditor").value=tableToMarkdown(table);
-    if(!confirmRelations())
+    if(!confirmRelations()){
       throw Error("關係表無法保存。");
+    }
 
     chatHistory.push(
       {role:"user",content:prompt},
@@ -1040,7 +1064,6 @@ async function relationsByAPI(){
 }
 
 /* ===== API 補充對話 ===== */
-
 async function sendChat(){
   if(busy)return;
   const message=$("chatInput").value.trim();
@@ -1060,7 +1083,8 @@ async function sendChat(){
     ).join("\n\n");
 
   const currentData=relationTable.length?
-    tableToMarkdown(relationTable):"尚未建立關係表";
+    tableToMarkdown(relationTable):
+    "尚未建立關係表";
 
   const prompt=commonRules+
     "\n\n原文：\n"+$("source").value+
@@ -1070,9 +1094,7 @@ async function sendChat(){
     "\n\n目前關係表：\n"+currentData+
     "\n\n目前輸出格式："+$("format").value+
     "\n\n研究者的新指令：\n"+message+
-    "\n\n如果要求修改關係表，"+
-    "請輸出包含全部資料列的完整 Markdown 表格，"+
-    "不要只輸出修改部分。";
+    "\n\n若要求修改關係表，請輸出包含全部資料列的完整 Markdown 表格，保留未修改的資料，不要只輸出修改部分。";
 
   setBusy(true);
   addChat("user",message);
@@ -1081,6 +1103,7 @@ async function sendChat(){
   try{
     const answer=await callLLM(prompt);
     addChat("assistant",answer);
+
     chatHistory.push(
       {role:"user",content:message},
       {role:"assistant",content:answer}
@@ -1091,7 +1114,6 @@ async function sendChat(){
 }
 
 /* ===== 初始化 ===== */
-
 $("source").addEventListener("input",()=>{
   if(!busy)resetResults();
 });
